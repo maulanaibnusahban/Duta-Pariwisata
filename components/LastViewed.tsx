@@ -5,7 +5,7 @@ const viewedProfiles = ["/avatar.png", "/avatar.png", "/avatar.png", "/avatar.pn
 
 const LastViewed = () => {
   return (
-    <div className="mb-24">
+    <div className="mb-10">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-gray-700 font-semibold text-lg">Terakhir Dilihat</h3>
         <button className="text-[#C69254] text-sm font-medium cursor-pointer">Lihat Semua</button>
