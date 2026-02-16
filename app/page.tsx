@@ -1,20 +1,30 @@
 "use client";
+import Sidebar from "@/components/ui/Sidebar";
+import { useState } from "react";
+import Vote from "@/components/pages/Vote";
+import Shop from "@/components/pages/Shop";
+import Home from "@/components/pages/Home";
+import BottomNav from "@/components/ui/BottomNav";
 
-import Header from "@/components/Header";
-import CountdownTimer from "@/components/CountdownTimer";
-import VoteButton from "@/components/VoteButton";
-import CandidateList from "@/components/CandidateList";
-import LastViewed from "@/components/LastViewed";
-import BottomNav from "@/components/BottomNav";
-import Sidebar from "@/components/Sidebar";
-import RightSidebar from "@/components/RightSidebar";
-import Reels from "@/components/Reels";
+export default function Page() {
+  const [page, setPage] = useState("home");
+  let pageToRender;
 
-export default function Home() {
+  if (page === "home") {
+    pageToRender = <Home />;
+  } else if (page === "vote") {
+    pageToRender = <Vote />;
+  } else if (page === "shop") {
+    pageToRender = <Shop />;
+  } else {
+    pageToRender = <Home />;
+  }
+
   return (
-    <div className="bg-white min-h-screen max-w-full font-sans flex relative">
-      <Sidebar />
-      <main className={`p-3 md:p-6 w-full overflow-y-auto min-h-screen`}>
+    <div className="bg-white min-h-screen max-w-full flex relative font-plus-jakarta">
+      <Sidebar setPage={setPage} page={page} />
+      {pageToRender}
+      {/* <main className={`p-3 md:p-6 w-full overflow-y-auto min-h-screen`}>
         <div className="max-w-2xl mx-auto pt-6 md:pt-0 ">
           <Header />
 
@@ -30,7 +40,8 @@ export default function Home() {
         <BottomNav />
       </main>
 
-      <RightSidebar />
+      <RightSidebar /> */}
+      <BottomNav setPage={setPage} page={page} />
     </div>
   );
 }
