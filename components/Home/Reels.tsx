@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal } from "lucide-react";
+import { Heart, MessageCircle, Send, Bookmark } from "lucide-react";
 import { reelsData } from "@/lib/content";
 
 const Reels = () => {
   return (
     <div className="space-y-6 mb-20">
       {reelsData.map((reel) => (
-        <div key={reel.id} className="bg-white overflow-hidden border-b border-gray-100 last:border-0 pb-4">
+        <div key={reel.id} className="">
           {/* Header */}
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-3">
@@ -23,16 +23,12 @@ const Reels = () => {
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <button className="text-white bg-[#C69254] hover:opacity-90 px-4 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer">
+              <button className="text-white bg-gold-gradient hover:opacity-90 px-7 py-[8px] rounded-full text-xs font-bold transition-all cursor-pointer">
                 Vote
-              </button>
-              <button className="text-gray-500 cursor-pointer">
-                <MoreHorizontal size={20} />
               </button>
             </div>
           </div>
 
-          {/* Video Content */}
           <div className="w-full aspect-video bg-black relative">
             <iframe
               width="100%"
@@ -71,7 +67,7 @@ const Reels = () => {
             <div className="text-sm text-gray-800">
               <span className="font-bold mr-2">{reel.user.name}</span>
               <span>{reel.caption.text}</span>
-              <span className="text-[#C69254] block mt-1">{reel.caption.hashtags}</span>
+              <span className="text-gold-500 font-medium block mt-1">{reel.caption.hashtags}</span>
             </div>
           </div>
         </div>

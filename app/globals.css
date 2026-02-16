@@ -1,5 +1,43 @@
 @import "tailwindcss";
 
+@theme inline {
+  --font-plus-jakarta: var(--font-plus-jakarta-sans);
+
+  /* Gold Palette */
+  --color-gold-50: #fcf9f0;
+  --color-gold-100: #f7eed5;
+  --color-gold-200: #eedc9a;
+  --color-gold-300: #e4c865;
+  --color-gold-400: #d4af37; /* Metallic Gold */
+  --color-gold-500: #b8860b; /* Dark Goldenrod */
+  --color-gold-600: #996515;
+  --color-gold-700: #704214;
+
+  --color-gold-gradient-start: #f3e5ab; /* Vanilla/Champagne */
+  --color-gold-gradient-mid: #d4af37;
+  --color-gold-gradient-end: #b8860b;
+}
+
+/* Custom Utilities */
+.text-gold-gradient {
+  background: linear-gradient(to right, #b8860b, #d4af37, #b8860b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #cfaa48 0%, #e6c86e 50%, #b08d38 100%);
+}
+
+.glass-gold {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
