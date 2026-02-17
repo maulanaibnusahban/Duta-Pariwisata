@@ -9,7 +9,7 @@ import RightSidebar from "../Home/RightSidebar";
 export default function Home() {
   return (
     <>
-      <main className={`p-3 md:p-6 w-full overflow-y-auto min-h-screen relative`}>
+      <main className={`p-3 md:py-4 md:px-5 w-full overflow-y-auto min-h-screen relative`}>
         <div className="mx-auto">
           <Header />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-2 max-w-7xl mx-auto">
