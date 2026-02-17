@@ -11,13 +11,13 @@ export default function Page() {
   let pageToRender;
 
   if (page === "home") {
-    pageToRender = <Home />;
+    pageToRender = <Home setPage={setPage} />;
   } else if (page === "vote") {
-    pageToRender = <Vote />;
+    pageToRender = <Vote setPage={setPage} />;
   } else if (page === "shop") {
     pageToRender = <Shop />;
   } else {
-    pageToRender = <Home />;
+    pageToRender = <Home setPage={setPage} />;
   }
 
   return (

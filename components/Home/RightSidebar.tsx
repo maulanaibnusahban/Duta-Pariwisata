@@ -31,7 +31,7 @@ const stories = [
   },
 ];
 
-const RightSidebar = () => {
+const RightSidebar = ({ setPage }: { setPage: (page: string) => void }) => {
   return (
     <div className="hidden lg:flex flex-col border-gray-100 overflow-hidden">
       {/* Stories Section */}
@@ -70,7 +70,10 @@ const RightSidebar = () => {
       <div>
         <div className="flex justify-between items-center mb-4 px-1">
           <h3 className="text-gray-800 font-bold text-lg relative inline-block">Suggestions</h3>
-          <span className="text-gold-600 text-sm font-semibold hover:text-gold-500 cursor-pointer transition-colors">
+          <span
+            onClick={() => setPage("vote")}
+            className="text-gold-600 text-sm font-semibold hover:text-gold-500 cursor-pointer transition-colors"
+          >
             See all
           </span>
         </div>

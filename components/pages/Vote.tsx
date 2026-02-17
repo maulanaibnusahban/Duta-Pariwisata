@@ -3,7 +3,7 @@ import { Crown, Search } from "lucide-react";
 import Image from "next/image";
 import { candidates } from "@/lib/content";
 
-export default function Vote() {
+export default function Vote({ setPage }: { setPage: (page: string) => void }) {
   const [activeTab, setActiveTab] = useState("People Choice");
 
   return (
@@ -26,7 +26,10 @@ export default function Vote() {
                 </div>
               </div>
             </div>
-            <button className="bg-white text-gold-600 h-fit w-fit px-5 py-2.5 rounded-lg font-bold hover:bg-gray-50 active:scale-[0.98] transition-all cursor-pointer flex items-center gap-1">
+            <button
+              onClick={() => setPage("shop")}
+              className="bg-white text-gold-600 h-fit w-fit px-5 py-2.5 rounded-lg font-bold hover:bg-gray-50 active:scale-[0.98] transition-all cursor-pointer flex items-center gap-1"
+            >
               <span>+</span> Dapatkan
             </button>
           </div>

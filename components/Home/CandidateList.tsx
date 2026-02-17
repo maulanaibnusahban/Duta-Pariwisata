@@ -35,12 +35,15 @@ const candidates = [
   },
 ];
 
-const CandidateList = () => {
+const CandidateList = ({ setPage }: { setPage: (page: string) => void }) => {
   return (
     <div className="mb-8 overflow-hidden">
       <div className="flex justify-between items-center mb-4 px-1">
         <h3 className="text-gray-800 font-bold text-lg relative inline-block">Kandidat</h3>
-        <button className="text-gold-600 text-sm font-semibold hover:text-gold-500 transition-colors cursor-pointer">
+        <button
+          onClick={() => setPage("vote")}
+          className="text-gold-600 text-sm font-semibold hover:text-gold-500 transition-colors cursor-pointer"
+        >
           Lihat Semua
         </button>
       </div>
