@@ -31,17 +31,14 @@ const stories = [
   },
 ];
 
-const RightSidebar = () => {
+const RightSidebar = ({ setPage }: { setPage: (page: string) => void }) => {
   return (
     <div className="hidden lg:flex flex-col border-gray-100 overflow-hidden">
       {/* Stories Section */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-4 px-1">
-          <h3 className="text-gray-800 font-bold text-lg relative inline-block">
-            Stories
-            <span className="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-[--color-gold-400] rounded-full"></span>
-          </h3>
-          <span className="text-[--color-gold-600] text-sm font-semibold hover:text-[--color-gold-500] cursor-pointer transition-colors">
+          <h3 className="text-gray-800 font-bold text-lg relative inline-block">Stories</h3>
+          <span className="text-gold-600 text-sm font-semibold hover:text-gold-500 cursor-pointer transition-colors">
             Watch All
           </span>
         </div>
@@ -72,11 +69,11 @@ const RightSidebar = () => {
       {/* Suggestions Section */}
       <div>
         <div className="flex justify-between items-center mb-4 px-1">
-          <h3 className="text-gray-800 font-bold text-lg relative inline-block">
-            Suggestions
-            <span className="absolute -bottom-1 left-0 w-1/2 h-0.5 bg-[--color-gold-400] rounded-full"></span>
-          </h3>
-          <span className="text-[--color-gold-600] text-sm font-semibold hover:text-[--color-gold-500] cursor-pointer transition-colors">
+          <h3 className="text-gray-800 font-bold text-lg relative inline-block">Suggestions</h3>
+          <span
+            onClick={() => setPage("vote")}
+            className="text-gold-600 text-sm font-semibold hover:text-gold-500 cursor-pointer transition-colors"
+          >
             See all
           </span>
         </div>
