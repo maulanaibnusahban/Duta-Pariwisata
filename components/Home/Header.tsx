@@ -8,12 +8,6 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Toggle Modal
-  const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen);
-    setSearchQuery("");
-  };
-
   // Shortcut Listener (Ctrl + K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
