@@ -1,4 +1,4 @@
-import { Crown, House, ShoppingCart, User2 } from "lucide-react";
+import { Banknote, Building2, CreditCard, Crown, House, QrCode, ShoppingCart, User2, Wallet } from "lucide-react";
 
 export const reelsData = [
   {
@@ -122,5 +122,120 @@ export const candidates = [
     name: "Citra Lestari",
     region: "Bali",
     image: "/avatar.png",
+  },
+];
+
+export const PAYMENT_CATEGORIES = [
+  {
+    category: "E-Wallet",
+    methods: [
+      {
+        id: "gopay",
+        name: "GoPay",
+        description: "Bayar dengan saldo GoPay",
+        icon: Wallet,
+        className: "w-5 h-5 text-[#00AED6]",
+        badge: "Populer",
+      },
+      {
+        id: "dana",
+        name: "DANA",
+        description: "Bayar dengan saldo DANA",
+        icon: Wallet,
+        className: "w-5 h-5 text-[#118EEA]",
+      },
+      {
+        id: "ovo",
+        name: "OVO",
+        description: "Bayar dengan saldo OVO",
+        icon: Wallet,
+        className: "w-5 h-5 text-[#4C3494]",
+      },
+      {
+        id: "shopeepay",
+        name: "ShopeePay",
+        description: "Bayar dengan saldo ShopeePay",
+        icon: Wallet,
+        className: "w-5 h-5 text-[#EE4D2D]",
+      },
+    ],
+  },
+  {
+    category: "Transfer Bank",
+    methods: [
+      {
+        id: "bca",
+        name: "BCA Virtual Account",
+        description: "Transfer via BCA",
+        icon: Building2,
+        className: "w-5 h-5 text-blue-600",
+      },
+      {
+        id: "bni",
+        name: "BNI Virtual Account",
+        description: "Transfer via BNI",
+        icon: Building2,
+        className: "w-5 h-5 text-orange-500",
+      },
+      {
+        id: "bri",
+        name: "BRI Virtual Account",
+        description: "Transfer via BRI",
+        icon: Building2,
+        className: "w-5 h-5 text-blue-500",
+      },
+      {
+        id: "mandiri",
+        name: "Mandiri Virtual Account",
+        description: "Transfer via Mandiri / Livin",
+        icon: Building2,
+        className: "w-5 h-5 text-yellow-500",
+      },
+    ],
+  },
+  {
+    category: "Kartu Kredit / Debit",
+    methods: [
+      {
+        id: "credit_card",
+        name: "Kartu Kredit / Debit",
+        description: "Visa, Mastercard, JCB",
+        icon: CreditCard,
+        className: "w-5 h-5 text-gold-500",
+        badge: "3D Secure",
+      },
+    ],
+  },
+  {
+    category: "QRIS",
+    methods: [
+      {
+        id: "qris",
+        name: "QRIS",
+        description: "Scan QR dari semua aplikasi",
+        icon: QrCode,
+        className: "w-5 h-5 text-black",
+        badge: "Semua Bank",
+      },
+    ],
+  },
+  {
+    category: "Gerai Tunai",
+    methods: [
+      {
+        id: "alfamart",
+        name: "Alfamart",
+        description: "Bayar di kasir Alfamart",
+        icon: Banknote,
+        className: "w-5 h-5 text-red-500",
+      },
+      {
+        id: "indomaret",
+        name: "Indomaret",
+        description: "Bayar di kasir Indomaret",
+        icon: Banknote,
+        className: "w-5 h-5 text-red-600",
+      },
+    ],
   },
 ];
