@@ -1,6 +1,6 @@
 "use client";
 import Sidebar from "@/components/ui/Sidebar";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Vote from "@/components/pages/Vote";
 import Shop from "@/components/pages/Shop";
@@ -8,7 +8,7 @@ import Home from "@/components/pages/Home";
 import BottomNav from "@/components/ui/BottomNav";
 import Profile from "@/components/pages/Profile";
 
-export default function Page() {
+function PageContent() {
   const searchParams = useSearchParams();
   const [page, setPage] = useState(searchParams.get("page") ?? "home");
   let pageToRender;
@@ -31,5 +31,13 @@ export default function Page() {
       {pageToRender}
       <BottomNav setPage={setPage} page={page} />
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <PageContent />
+    </Suspense>
   );
 }
