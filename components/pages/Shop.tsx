@@ -1,9 +1,21 @@
+"use client";
+
 import { ArrowRight, Crown, FilmIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import AdsToast from "@/components/shop/AdsToast";
+import AdsModal from "@/components/shop/AdsModal";
 
 export default function Shop() {
   const router = useRouter();
+  const [showAds, setShowAds] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const handleAdsClose = () => {
+    setShowAds(false);
+    setShowToast(true);
+  };
+
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
       {/* Desktop Header Title */}
@@ -28,7 +40,11 @@ export default function Shop() {
 
           {/* Search & Tabs */}
           <div className="flex flex-col justify-center space-y-4 h-full">
-            <button className="flex w-full bg-white rounded-2xl px-5 py-4 border shadow-xs hover:shadow-md transition-all group border-gray-200 justify-between items-center active:scale-[0.99]">
+            {/* Tonton Iklan button */}
+            <button
+              onClick={() => setShowAds(true)}
+              className="flex w-full bg-white rounded-2xl px-5 py-4 border shadow-xs hover:shadow-md transition-all group border-gray-200 justify-between items-center active:scale-[0.99]"
+            >
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <FilmIcon className="w-6 h-6 md:w-7 md:h-7 text-gold-500" />
@@ -39,7 +55,7 @@ export default function Shop() {
               <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-gray-500 group-hover:translate-x-1 transition-all" />
             </button>
 
-            {/* Tabs */}
+            {/* Top Up button */}
             <button
               onClick={() => router.push("/top-up")}
               className="flex w-full bg-white rounded-2xl px-5 py-4 border shadow-xs hover:shadow-md transition-all group border-gray-200 justify-between items-center active:scale-[0.99]"
@@ -49,13 +65,21 @@ export default function Shop() {
                   <Crown className="w-6 h-6 md:w-7 md:h-7 text-gold-500" />
                   <span className="text-base md:text-lg font-bold">Top Up</span>
                 </div>
-                <p className="text-sm hidden md:block text-start text-gray-500">Dapatkan koin dengan melakukan pembelian</p>
+                <p className="text-sm hidden md:block text-start text-gray-500">
+                  Dapatkan koin dengan melakukan pembelian
+                </p>
               </div>
               <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-gray-500 group-hover:translate-x-1 transition-all" />
             </button>
           </div>
         </div>
       </div>
+
+      {/* Ad Modal */}
+      {showAds && <AdsModal onClose={handleAdsClose} />}
+
+      {/* Success Toast */}
+      {showToast && <AdsToast onDone={() => setShowToast(false)} />}
     </div>
   );
 }
