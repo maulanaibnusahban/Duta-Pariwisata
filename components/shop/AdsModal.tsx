@@ -42,7 +42,7 @@ export default function AdsModal({ onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm font-plus-jakarta overflow-y-auto scrollbar-hide md:py-3">
-      <div className="relative w-full max-w-[320px] sm:max-w-[360px] mx-auto flex flex-col min-h-96 my-auto">
+      <div className="relative w-full h-full mx-auto flex flex-col min-h-96 my-auto">
         <div className="relative h-1.5 bg-white/20 w-full shrink-0">
           <div
             className="h-full bg-gold-gradient transition-all duration-1000 ease-linear"
@@ -50,7 +50,7 @@ export default function AdsModal({ onClose }: Props) {
           />
         </div>
 
-        <div className="bg-black flex-1 w-full aspect-9/16 flex flex-col items-center justify-center relative ">
+        <div className="bg-black flex-1 w-full flex flex-col items-center justify-center relative ">
           <video
             ref={videoRef}
             src="/video/Iklan_layanan_masyarakat.mp4"
@@ -59,14 +59,14 @@ export default function AdsModal({ onClose }: Props) {
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             onEnded={handleEnded}
-            className="absolute inset-0 w-full h-full object-contain"
+            className="absolute inset-0 w-full h-full object-center"
           />
 
           <div className="absolute top-3 right-3 z-20">
             {finished ? (
               <button
                 onClick={onClose}
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-gray-900 font-bold shadow-lg hover:bg-gray-100 active:scale-95 transition-all animate-fade-in"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-gray-900 font-bold shadow-lg hover:bg-gray-100 active:scale-95 transition-all animate-fade-in cursor-pointer"
                 aria-label="Tutup iklan"
               >
                 <X className="w-5 h-5" />
