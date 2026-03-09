@@ -1,41 +1,54 @@
 "use client";
 
 import Link from "next/link";
-import { Crown, CrownIcon } from "lucide-react";
-import React from "react";
+import { CrownIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
+// ── Target date for the event ──────────────────────────────────────────────
+const TARGET_DATE = new Date("2026-04-10T23:59:59+07:00");
+
+function getTimeLeft() {
+  const diff = TARGET_DATE.getTime() - Date.now();
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
+  };
+}
 
 const CountdownTimer = () => {
+  const [time, setTime] = useState(getTimeLeft);
+
+  useEffect(() => {
+    const id = setInterval(() => setTime(getTimeLeft()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const units = [
+    { label: "Hari", value: time.days },
+    { label: "Jam", value: time.hours },
+    { label: "Menit", value: time.minutes },
+    { label: "Detik", value: time.seconds },
+  ];
+
   return (
     <div className="font-plus-jakarta relative z-10">
       <h3 className="text-sm text-gray-500 mb-3 font-semibold uppercase tracking-wider">Sisa Waktu Pemilihan</h3>
       <div className="flex w-full items-center gap-4 md:gap-6">
-        {/* <div className="hidden lg:block p-5 rounded-full bg-gold-100 border border-gold-200">
-          <Crown className="text-gold-600 w-12 h-12" />
-        </div> */}
-
         <div className="flex w-full items-center justify-evenly text-center gap-2">
-          <div className="bg-white border border-gold-200 shadow-sm h-22 w-22 xl:h-24 xl:w-24 rounded-2xl flex flex-col items-center justify-center relative overlow-hidden">
-            <div className="text-3xl font-extrabold text-gold-gradient">30</div>
-            <div className="text-xs text-gray-400 mt-1 font-medium">Hari</div>
-          </div>
-          <div className="text-2xl font-bold text-gold-300 pb-4 animate-pulse">:</div>
-
-          <div className="bg-white border border-gold-200 shadow-sm h-22 w-22 xl:h-24 xl:w-24 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
-            <div className="text-3xl font-extrabold text-gold-gradient">12</div>
-            <div className="text-xs text-gray-400 mt-1 font-medium">Jam</div>
-          </div>
-          <div className="text-2xl font-bold text-gold-300 pb-4 animate-pulse">:</div>
-
-          <div className="bg-white border border-gold-200 shadow-sm h-22 w-22 xl:h-24 xl:w-24 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
-            <div className="text-3xl font-extrabold text-gold-gradient">16</div>
-            <div className="text-xs text-gray-400 mt-1 font-medium">Menit</div>
-          </div>
-          <div className="text-2xl font-bold text-gold-300 pb-4 animate-pulse">:</div>
-
-          <div className="bg-white border border-gold-200 shadow-sm h-22 w-22 xl:h-24 xl:w-24 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
-            <div className="text-3xl font-extrabold text-gold-gradient">1</div>
-            <div className="text-xs text-gray-400 mt-1 font-medium">Detik</div>
-          </div>
+          {units.map((unit, i) => (
+            <React.Fragment key={unit.label}>
+              <div className="bg-white border border-gold-200 shadow-sm h-22 w-22 xl:h-24 xl:w-24 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
+                <div className="text-3xl font-extrabold text-gold-gradient tabular-nums">
+                  {String(unit.value).padStart(2, "0")}
+                </div>
+                <div className="text-xs text-gray-400 mt-1 font-medium">{unit.label}</div>
+              </div>
+              {i < units.length - 1 && <div className="text-2xl font-bold text-gold-300 pb-4 animate-pulse">:</div>}
+            </React.Fragment>
+          ))}
         </div>
       </div>
       <Link
