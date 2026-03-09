@@ -3,7 +3,7 @@ import { Crown, Search } from "lucide-react";
 import Image from "next/image";
 import { candidates } from "@/lib/content";
 
-export default function Vote({ setPage }: { setPage: (page: string) => void }) {
+export default function Vote({ setPage, onSelectCandidate }: { setPage: (page: string) => void; onSelectCandidate: (id: number) => void }) {
   const [activeTab, setActiveTab] = useState("People Choice");
 
   return (
@@ -76,6 +76,7 @@ export default function Vote({ setPage }: { setPage: (page: string) => void }) {
           {candidates.map((candidate) => (
             <div
               key={candidate.id}
+              onClick={() => onSelectCandidate(candidate.id)}
               className="relative aspect-3/4 rounded-2xl overflow-hidden group cursor-pointer shadow-md hover:shadow-xl transition-all hover:-translate-y-1"
             >
               <Image

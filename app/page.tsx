@@ -7,16 +7,26 @@ import Shop from "@/components/pages/Shop";
 import Home from "@/components/pages/Home";
 import BottomNav from "@/components/ui/BottomNav";
 import Profile from "@/components/pages/Profile";
+import CandidateDetail from "@/components/pages/CandidateDetail";
 
 function PageContent() {
   const searchParams = useSearchParams();
   const [page, setPage] = useState(searchParams.get("page") ?? "home");
+  const [selectedCandidateId, setSelectedCandidateId] = useState<number | null>(null);
+
+  const handleSelectCandidate = (id: number) => {
+    setSelectedCandidateId(id);
+    setPage("candidate-detail");
+  };
+
   let pageToRender;
 
   if (page === "home") {
     pageToRender = <Home setPage={setPage} />;
   } else if (page === "vote") {
-    pageToRender = <Vote setPage={setPage} />;
+    pageToRender = <Vote setPage={setPage} onSelectCandidate={handleSelectCandidate} />;
+  } else if (page === "candidate-detail" && selectedCandidateId !== null) {
+    pageToRender = <CandidateDetail candidateId={selectedCandidateId} setPage={setPage} />;
   } else if (page === "shop") {
     pageToRender = <Shop />;
   } else if (page === "profile") {

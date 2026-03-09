@@ -1,20 +1,44 @@
 "use client";
 
-import { ArrowRight, Crown, FilmIcon } from "lucide-react";
+import { ArrowRight, Crown, FilmIcon, User2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import AdsToast from "@/components/shop/AdsToast";
 import AdsModal from "@/components/shop/AdsModal";
+import LoginButton from "@/components/Home/LoginButton";
+import { useUser } from "@/lib/useAuth";
 
 export default function Shop() {
   const router = useRouter();
   const [showAds, setShowAds] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const user = useUser();
 
   const handleAdsClose = () => {
     setShowAds(false);
     setShowToast(true);
   };
+
+  if (!user) {
+    return (
+      <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
+        <div className="pt-8 px-8 max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
+          <p className="text-gray-500">Dapatkan koin untuk mendukung kandidat favoritmu.</p>
+        </div>
+        <div className="flex flex-col items-center justify-center pt-20 gap-5 px-8">
+          <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-300">
+            <User2 className="w-12 h-12 text-gray-300" />
+          </div>
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-gray-800 mb-2">Login Diperlukan</h2>
+            <p className="text-gray-500 text-sm mb-6">Masuk terlebih dahulu untuk mengakses Shop.</p>
+            <LoginButton />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
