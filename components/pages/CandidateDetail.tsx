@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ArrowLeft, Crown, FilmIcon, CheckCircle2, LogIn, Users } from "lucide-react";
+import { ArrowLeft, Crown, FilmIcon, CheckCircle2, LogIn, Users, Share2, Link2 } from "lucide-react";
 import { candidates } from "@/lib/content";
 import AdsModal from "@/components/shop/AdsModal";
 import QrisPaymentModal from "@/components/vote/QrisPaymentModal";
@@ -39,7 +39,24 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
   const [showAds, setShowAds] = useState(false);
   const [showQris, setShowQris] = useState(false);
   const [voteToast, setVoteToast] = useState(false);
+  const [copyToast, setCopyToast] = useState(false);
   const router = useRouter();
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    const text = `Dukung ${candidate.name} dari ${candidate.region} menjadi Duta Pariwisata Indonesia! 🌟`;
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({ title: candidate.name, text, url });
+      } catch {
+        // user cancelled — no need to handle
+      }
+    } else {
+      await navigator.clipboard.writeText(url);
+      setCopyToast(true);
+      setTimeout(() => setCopyToast(false), 2500);
+    }
+  };
 
   const handleAdsClose = () => {
     addVoteRecord({
@@ -85,6 +102,13 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
           <div className="flex-1">
             <h1 className="text-lg font-bold text-gray-900 leading-tight">Detail Kandidat</h1>
           </div>
+          <button
+            onClick={handleShare}
+            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
+            aria-label="Bagikan kandidat"
+          >
+            <Share2 className="w-5 h-5 text-gray-700" />
+          </button>
         </div>
       </header>
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
@@ -193,6 +217,21 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
                 <p className="text-sm font-semibold text-gray-900">
                   Kamu mendukung <span className="text-green-600">{candidate.name}</span>!
                 </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Copy link toast */}
+        {copyToast && (
+          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-4">
+            <div className="flex items-center gap-3 bg-white border border-blue-200 rounded-xl px-5 py-3.5 shadow-lg min-w-max">
+              <div className="w-9 h-9 bg-blue-500 rounded-full flex items-center justify-center shrink-0">
+                <Link2 className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p className="text-xs text-gray-400 leading-none mb-0.5">Link Disalin</p>
+                <p className="text-sm font-semibold text-gray-900">Link kandidat berhasil disalin!</p>
               </div>
             </div>
           </div>
