@@ -14,7 +14,7 @@ import AppShell from "@/components/ui/AppShell";
 /* ─────────────────────────────────────────────
    Constants
 ───────────────────────────────────────────── */
-const PRICE_PER_VOTE = 10000; // IDR
+const PRICE_PER_VOTE = 1000; // IDR
 const SERVICE_FEE_RATE = 0.007; // 0.7%
 
 /* ─────────────────────────────────────────────

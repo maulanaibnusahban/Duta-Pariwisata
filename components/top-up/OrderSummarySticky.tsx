@@ -56,7 +56,7 @@ export default function OrderSummarySticky({
             {/* Breakdown */}
             <div className="space-y-3">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-500">Harga ({quantity.toLocaleString("id-ID")} × Rp 10.000)</span>
+                <span className="text-gray-500">Harga ({quantity.toLocaleString("id-ID")} × Rp 1.000)</span>
                 <span className="font-semibold text-gray-900">{formatIDR(subtotal)}</span>
               </div>
               <div className="flex justify-between items-center text-sm">
