@@ -16,14 +16,14 @@ function PaymentMethod({
 }) {
   return (
     <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="px-6 py-5 border-b border-gray-100">
+      <div className="px-5 py-5 border-b border-gray-100">
         <h2 className="font-bold text-gray-900 text-base">Metode Pembayaran</h2>
         <p className="text-xs text-gray-400 mt-0.5">Pilih metode yang ingin digunakan</p>
       </div>
 
       <div className="divide-y divide-gray-50">
         {PAYMENT_CATEGORIES.map((cat) => (
-          <div key={cat.category} className="px-6 py-4">
+          <div key={cat.category} className="px-5 py-4">
             <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">{cat.category}</p>
             <div className="space-y-2">
               {cat.methods.map((method) => {
@@ -32,7 +32,7 @@ function PaymentMethod({
                   <button
                     key={method.id}
                     onClick={() => setSelectedMethod(method.id)}
-                    className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-xl border transition-all cursor-pointer text-left group ${
+                    className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-xl border transition-all cursor-pointer text-left group ${
                       isSelected
                         ? "border-gold-400 bg-gold-50 shadow-sm"
                         : "border-gray-100 hover:border-gray-200 hover:bg-gray-50"

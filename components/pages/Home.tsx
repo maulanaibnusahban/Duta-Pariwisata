@@ -16,7 +16,7 @@ export default function Home() {
   const user = useUser();
   return (
     <>
-      <main className={`px-6 pb-6 md:py-4 w-full min-h-screen relative`}>
+      <main className={`px-5 pb-6 md:py-4 w-full min-h-screen relative`}>
         <div className="mx-auto">
           <Header />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8  max-w-7xl mx-auto  ">
@@ -28,7 +28,7 @@ export default function Home() {
                       <h2 className="text-gray-500  lg:text-lg font-medium">Selamat Pagi,</h2>
                       <h1 className="text-2xl  font-bold text-gray-900 tracking-tight">{user.name}</h1>
                     </div>
-                    <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 ring-2 ring-gold-200">
+                    <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0 ring-2 ring-gold-200">
                       <Image src={user.avatar} alt={user.name} fill className="object-cover" />
                     </div>
                   </Link>
@@ -40,7 +40,7 @@ export default function Home() {
                     </div>
                     <button
                       onClick={() => loginWithGoogle()}
-                      className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-amber-400 border border-amber-200 rounded-xl hover:bg-amber-50 active:scale-[0.98] transition-all cursor-pointer shrink-0"
+                      className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-amber-400 border border-amber-200 rounded-xl hover:bg-amber-50 active:scale-[0.98] transition-all cursor-pointer shrink-0"
                     >
                       <LogIn className="w-4 h-4 text-gray-500" />
                       <span className="">Masuk</span>

@@ -50,7 +50,7 @@ export default function QrisPaymentModal({ candidateName, candidateRegion, onSuc
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm font-plus-jakarta">
       <div className="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-sm mx-auto shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100">
+        <div className="flex items-center justify-between px-5 pt-6 pb-4 border-b border-gray-100">
           <div>
             <h2 className="font-bold text-gray-900 text-lg leading-tight">Pembayaran QRIS</h2>
             <p className="text-xs text-gray-500 mt-0.5">Scan QR untuk membayar</p>
@@ -65,7 +65,7 @@ export default function QrisPaymentModal({ candidateName, candidateRegion, onSuc
           )}
         </div>
 
-        <div className="px-6 py-4">
+        <div className="px-5 py-4">
           {/* Candidate info */}
           <div className="bg-gray-50 rounded-xl p-3 mb-4 text-center">
             <p className="text-xs text-gray-500">Mendukung kandidat</p>
@@ -77,11 +77,7 @@ export default function QrisPaymentModal({ candidateName, candidateRegion, onSuc
           <div className="flex justify-center mb-4">
             <div className="bg-white border-2 border-gray-200 rounded-2xl p-3 shadow-sm">
               {/* Dummy QR SVG */}
-              <svg
-                viewBox="0 0 200 200"
-                className="w-44 h-44"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg viewBox="0 0 200 200" className="w-44 h-44" xmlns="http://www.w3.org/2000/svg">
                 {/* Top-left finder */}
                 <rect x="10" y="10" width="60" height="60" rx="4" fill="#1a1a1a" />
                 <rect x="20" y="20" width="40" height="40" rx="2" fill="white" />

@@ -94,7 +94,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
     <div className="w-full">
       {/* Back button */}
       <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-        <div className=" mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
+        <div className=" mx-auto px-5 sm:px-5 h-16 flex items-center gap-4">
           <button
             onClick={() => router.back()}
             className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
@@ -200,9 +200,9 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
                 </div>
               </button>
 
-              <p className="text-xs text-gray-400 text-center pt-1">
+              {/* <p className="text-xs text-gray-400 text-center pt-1">
                 Setiap transaksi memberikan 1 vote seharga Rp 1.000
-              </p>
+              </p> */}
             </div>
           )}
         </div>
@@ -221,7 +221,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
         </div>
 
         {/* ── Kandidat Lainnya ───────────────────────────────── */}
-        <div className="mt-10 px-5 md:px-8">
+        <div className="mt-6 px-5 md:px-8">
           <div className="flex justify-between items-center mb-4">
             <h2 className="font-bold text-gray-900 text-lg">Kandidat Lainnya</h2>
             <Link href="/vote" className="text-gold-600 text-xs font-semibold hover:text-gold-500 transition-colors">
@@ -263,7 +263,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
 
         {/* Vote success toast */}
         {voteToast && (
-          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-4 animate-fade-in">
+          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-5 animate-fade-in">
             <div className="flex items-center gap-3 bg-white border border-green-200 rounded-xl px-5 py-3.5 shadow-lg min-w-max">
               <div className="w-9 h-9 bg-green-500 rounded-full flex items-center justify-center shrink-0">
                 <CheckCircle2 className="w-4 h-4 text-white" />
@@ -280,7 +280,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
 
         {/* Copy link toast */}
         {copyToast && (
-          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-4">
+          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-5">
             <div className="flex items-center gap-3 bg-white border border-blue-200 rounded-xl px-5 py-3.5 shadow-lg min-w-max">
               <div className="w-9 h-9 bg-blue-500 rounded-full flex items-center justify-center shrink-0">
                 <Link2 className="w-4 h-4 text-white" />

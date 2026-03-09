@@ -14,11 +14,11 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-        <div className="pt-8 px-6 max-w-7xl mx-auto">
+        <div className="pt-8 px-5 max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Saya</h1>
           <p className="text-gray-500">Kelola akun dan lihat riwayat votingmu.</p>
         </div>
-        <div className="flex flex-col items-center justify-center pt-20 gap-5 px-6">
+        <div className="flex flex-col items-center justify-center pt-20 gap-5 px-5">
           <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-300">
             <User2 className="w-12 h-12 text-gray-300" />
           </div>
@@ -34,13 +34,13 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-      <div className="pt-8 px-6 max-w-7xl mx-auto">
+      <div className="pt-8 px-5 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Saya</h1>
         <p className="text-gray-500">Kelola akun dan lihat riwayat votingmu.</p>
       </div>
 
       {/* Profile card */}
-      <div className="px-6 pt-6 max-w-7xl mx-auto">
+      <div className="px-5 pt-6 max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex items-center gap-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 bg-gray-100">
             <Image src={user.avatar} alt={user.name} fill className="object-cover" />
@@ -52,7 +52,7 @@ export default function Profile() {
           </div>
           <button
             onClick={logout}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 active:scale-[0.98] transition-all cursor-pointer shrink-0"
+            className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 active:scale-[0.98] transition-all cursor-pointer shrink-0"
           >
             <LogOut className="w-4 h-4" />
             <span className="hidden sm:inline">Logout</span>
@@ -61,7 +61,7 @@ export default function Profile() {
       </div>
 
       {/* Vote history */}
-      <div className="px-6 pt-8 max-w-7xl mx-auto">
+      <div className="px-5 pt-8 max-w-7xl mx-auto">
         <h3 className="font-bold text-gray-800 text-lg mb-4">Riwayat Vote</h3>
         {voteHistory.length === 0 ? (
           <div className="text-center py-16 text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
@@ -77,12 +77,7 @@ export default function Profile() {
                 className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 flex items-center gap-4"
               >
                 <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-gray-100">
-                  <Image
-                    src={record.candidateImage}
-                    alt={record.candidateName}
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src={record.candidateImage} alt={record.candidateName} fill className="object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-gray-900 text-sm leading-tight">{record.candidateName}</p>
@@ -117,4 +112,3 @@ export default function Profile() {
     </div>
   );
 }
-

@@ -73,7 +73,7 @@ export default function TopupPage() {
       <div className="min-h-screen bg-gray-50 font-plus-jakarta w-full">
         {/* ── Top Bar ── */}
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-          <div className="mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
+          <div className="mx-auto px-5 sm:px-5 h-16 flex items-center gap-4">
             <button
               onClick={() => router.push("/shop")}
               className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
@@ -86,7 +86,7 @@ export default function TopupPage() {
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+        <main className="max-w-7xl mx-auto px-5 sm:px-5 py-6 sm:py-10">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             <div className="lg:col-span-3 space-y-5">
               <QuotaSelector

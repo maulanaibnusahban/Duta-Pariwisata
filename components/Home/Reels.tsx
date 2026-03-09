@@ -19,14 +19,14 @@ const Reels = () => {
                   <p className="font-bold text-sm text-gray-800">{reel.user.name}</p>
                   <span className="text-gray-400 text-xs">• {reel.timestamp}</span>
                 </div>
-                {reel.user.isSuggested && <p className="text-xs text-gray-500">Suggested for you</p>}
+                {reel.user.isSuggested && <p className="text-xs text-gray-500">Disarankan untukmu</p>}
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <button className="text-white bg-gold-gradient hover:opacity-90 px-7 py-[8px] rounded-full text-xs font-bold transition-all cursor-pointer">
                 Vote
               </button>
-            </div>
+            </div> */}
           </div>
 
           <div className="w-full aspect-video bg-black relative">

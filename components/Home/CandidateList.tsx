@@ -49,9 +49,12 @@ const CandidateList = () => {
         </Link>
       </div>
 
-      <div className="flex overflow-x-auto space-x-4 pb-4 -mx-4 px-4 scrollbar-hide">
+      <div className="flex overflow-x-auto space-x-4 pb-4 -mx-4 px-5 scrollbar-hide">
         {candidates.map((candidate) => (
-          <div key={candidate.id} className="relative shrink-0 w-40 h-48 rounded-xl overflow-hidden shadow-md cursor-pointer">
+          <div
+            key={candidate.id}
+            className="relative shrink-0 w-40 h-48 rounded-xl overflow-hidden shadow-md cursor-pointer"
+          >
             <Image src={candidate.image} alt={candidate.name} fill className="object-cover" />
             <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 to-transparent p-3">
               <p className="text-white text-sm font-semibold relative z-10">{candidate.name}</p>

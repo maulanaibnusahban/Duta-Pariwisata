@@ -26,7 +26,7 @@ export default function AdsToast({ onDone }: Props) {
 
   return (
     <div
-      className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-40 transition-all duration-400 ease-out font-plus-jakarta px-4
+      className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-40 transition-all duration-400 ease-out font-plus-jakarta px-5
         ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
     >
       <div className="flex items-center gap-3 bg-white border border-amber-200 rounded-lg px-5 py-3.5 min-w-max">

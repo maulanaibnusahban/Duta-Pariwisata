@@ -34,11 +34,11 @@ export default function OrderSummarySticky({
         {/* ── Summary Card ── */}
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           {/* Header */}
-          <div className="px-6 py-5 border-b border-gray-100">
+          <div className="px-5 py-5 border-b border-gray-100">
             <h2 className="font-bold text-gray-900 text-base">Ringkasan Pembayaran</h2>
           </div>
 
-          <div className="px-6 py-5 space-y-4">
+          <div className="px-5 py-5 space-y-4">
             {/* Vote preview */}
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3.5">
               <div className="w-10 h-10 bg-gold-gradient rounded-xl flex items-center justify-center shrink-0">
@@ -47,7 +47,8 @@ export default function OrderSummarySticky({
               <div>
                 <p className="text-xs text-gray-400">Anda mendapatkan</p>
                 <p className="font-bold text-gray-900 text-lg leading-tight">
-                  {quantity.toLocaleString("id-ID")} <span className="text-sm font-semibold text-gold-600">Kuota Vote</span>
+                  {quantity.toLocaleString("id-ID")}{" "}
+                  <span className="text-sm font-semibold text-gold-600">Kuota Vote</span>
                 </p>
               </div>
             </div>
@@ -76,7 +77,7 @@ export default function OrderSummarySticky({
 
             {/* Selected Payment */}
             {selectedMethodDetail && (
-              <div className="bg-gold-50 border border-gold-100 rounded-xl px-4 py-3.5 flex items-center gap-3">
+              <div className="bg-gold-50 border border-gold-100 rounded-xl px-5 py-3.5 flex items-center gap-3">
                 <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm shrink-0">
                   <selectedMethodDetail.icon className={selectedMethodDetail.className} />
                 </div>
@@ -119,7 +120,7 @@ export default function OrderSummarySticky({
         </section>
 
         {/* ── Notice ── */}
-        <div className="flex items-start gap-3 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3.5">
+        <div className="flex items-start gap-3 bg-amber-50 border border-amber-100 rounded-xl px-5 py-3.5">
           <AlertCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700 leading-relaxed">
             Kuota vote bersifat non-refundable. Pastikan jumlah dan metode pembayaran sudah benar sebelum melanjutkan.

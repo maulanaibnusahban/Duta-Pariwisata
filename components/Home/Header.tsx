@@ -70,7 +70,7 @@ const Header = () => {
         <div className="flex gap-4 md:w-full">
           <div
             onClick={() => setIsSearchOpen(true)}
-            className="hidden md:flex  border border-gray-200 rounded-lg px-4 py-2.5 items-center gap-3 cursor-pointer hover:border-gold-300 hover:shadow-md hover:shadow-gold-50 transition-all group w-full"
+            className="hidden md:flex  border border-gray-200 rounded-lg px-5 py-2.5 items-center gap-3 cursor-pointer hover:border-gold-300 hover:shadow-md hover:shadow-gold-50 transition-all group w-full"
           >
             <Search className="w-5 h-5 text-gray-400 group-hover:text-gold-500 transition-colors" />
             <span className="text-gray-400 text-sm flex-1 group-hover:text-gray-600">Cari kandidat...</span>
@@ -121,7 +121,7 @@ const Header = () => {
 
       {/* Search Modal */}
       {isSearchOpen && (
-        <div className="fixed inset-0 z-100 flex items-start justify-center pt-4 sm:pt-20 px-4">
+        <div className="fixed inset-0 z-100 flex items-start justify-center pt-4 sm:pt-20 px-5">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
@@ -131,7 +131,7 @@ const Header = () => {
           {/* Modal Content */}
           <div className="relative bg-white w-full max-w-2xl rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[80vh]">
             {/* Header */}
-            <div className="flex items-center px-4 py-4 border-b border-gray-100 gap-3">
+            <div className="flex items-center px-5 py-4 border-b border-gray-100 gap-3">
               <Search className="w-5 h-5 text-gold-500" />
               <input
                 ref={inputRef}
@@ -164,7 +164,7 @@ const Header = () => {
 
               {filteredCandidates.length > 0 && (
                 <div className="space-y-1">
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-2">Kandidat</p>
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-2">Kandidat</p>
                   {filteredCandidates.map((candidate) => (
                     <Link
                       href={`/vote/${candidate.id}`}

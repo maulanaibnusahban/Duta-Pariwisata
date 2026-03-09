@@ -13,7 +13,7 @@ const LastViewed = () => {
         </button>
       </div>
 
-      <div className="flex overflow-x-auto space-x-4 pb-2 -mx-4 px-4 scrollbar-hide">
+      <div className="flex overflow-x-auto space-x-4 pb-2 -mx-4 px-5 scrollbar-hide">
         {viewedProfiles.map((src, index) => (
           <div
             key={index}

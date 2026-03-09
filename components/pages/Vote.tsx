@@ -13,7 +13,7 @@ export default function Vote() {
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
       {/* Desktop Header Title */}
-      <div className="pt-8 px-6 max-w-7xl mx-auto">
+      <div className="pt-8 px-5 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Vote</h1>
         <p className="text-gray-500">Dukung kandidat favoritmu untuk menjadi juara.</p>
       </div>
@@ -53,7 +53,7 @@ export default function Vote() {
             <div className="flex gap-3">
               <button
                 onClick={() => setActiveTab("People Choice")}
-                className={`px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap transition-all border cursor-pointer ${
+                className={`px-5 py-3 rounded-full font-bold text-sm whitespace-nowrap transition-all border cursor-pointer ${
                   activeTab === "People Choice"
                     ? "bg-gray-900 text-white border-gray-900 shadow-gray-200 scale-105"
                     : "bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:bg-gray-50"
@@ -63,7 +63,7 @@ export default function Vote() {
               </button>
               <button
                 onClick={() => setActiveTab("Video Choice")}
-                className={`px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap transition-all border cursor-pointer ${
+                className={`px-5 py-3 rounded-full font-bold text-sm whitespace-nowrap transition-all border cursor-pointer ${
                   activeTab === "Video Choice"
                     ? "bg-gray-900 text-white border-gray-900 shadow-lg shadow-gray-200 scale-105"
                     : "bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:bg-gray-50"

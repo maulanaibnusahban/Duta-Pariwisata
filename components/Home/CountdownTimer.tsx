@@ -53,7 +53,7 @@ const CountdownTimer = () => {
       </div>
       <Link
         href="/vote"
-        className="w-full mt-6 bg-gold-gradient text-white rounded-md py-4 px-6 flex items-center justify-center space-x-2 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 cursor-pointer relative overflow-hidden group"
+        className="w-full mt-6 bg-gold-gradient text-white rounded-md py-4 px-5 flex items-center justify-center space-x-2 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 cursor-pointer relative overflow-hidden group"
       >
         <CrownIcon className="w-6 h-6 text-white" />
         <span className="text-lg font-bold">Vote Sekarang</span>
