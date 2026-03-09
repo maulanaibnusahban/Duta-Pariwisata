@@ -9,6 +9,7 @@ import OrderSummarySticky from "@/components/top-up/OrderSummarySticky";
 import { handleDecrement, handleIncrement, handlePay } from "@/components/top-up/helpers";
 import { PAYMENT_CATEGORIES } from "@/lib/content";
 import { PaymentMethodType } from "@/lib/type";
+import AppShell from "@/components/ui/AppShell";
 
 /* ─────────────────────────────────────────────
    Constants
@@ -68,54 +69,56 @@ export default function TopupPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 font-plus-jakarta">
-      {/* ── Top Bar ── */}
-      <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
-          <button
-            onClick={() => router.push("/shop")}
-            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
-          >
-            <ArrowLeft className="w-5 h-5 text-gray-700" />
-          </button>
-          <div className="flex-1">
-            <h1 className="text-lg font-bold text-gray-900 leading-tight">Top Up Kuota Vote</h1>
+    <AppShell showBottomBar={false}>
+      <div className="min-h-screen bg-gray-50 font-plus-jakarta w-full">
+        {/* ── Top Bar ── */}
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+          <div className="mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
+            <button
+              onClick={() => router.push("/shop")}
+              className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
+            >
+              <ArrowLeft className="w-5 h-5 text-gray-700" />
+            </button>
+            <div className="flex-1">
+              <h1 className="text-lg font-bold text-gray-900 leading-tight">Top Up Kuota Vote</h1>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          <div className="lg:col-span-3 space-y-5">
-            <QuotaSelector
-              handleDecrement={() => handleDecrement(quantity, setQuantity, setInputValue)}
-              handleIncrement={() => handleIncrement(quantity, setQuantity, setInputValue)}
-              handleInputChange={handleInputChange}
-              handleInputBlur={handleInputBlur}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div className="lg:col-span-3 space-y-5">
+              <QuotaSelector
+                handleDecrement={() => handleDecrement(quantity, setQuantity, setInputValue)}
+                handleIncrement={() => handleIncrement(quantity, setQuantity, setInputValue)}
+                handleInputChange={handleInputChange}
+                handleInputBlur={handleInputBlur}
+                quantity={quantity}
+                inputValue={inputValue}
+                QUICK_PACKAGES={QUICK_PACKAGES}
+                handleQuickPick={handleQuickPick}
+              />
+
+              <PaymentMethod
+                PAYMENT_CATEGORIES={PAYMENT_CATEGORIES}
+                selectedMethod={selectedMethod}
+                setSelectedMethod={setSelectedMethod}
+              />
+            </div>
+
+            <OrderSummarySticky
               quantity={quantity}
-              inputValue={inputValue}
-              QUICK_PACKAGES={QUICK_PACKAGES}
-              handleQuickPick={handleQuickPick}
-            />
-
-            <PaymentMethod
-              PAYMENT_CATEGORIES={PAYMENT_CATEGORIES}
-              selectedMethod={selectedMethod}
-              setSelectedMethod={setSelectedMethod}
+              subtotal={subtotal}
+              serviceFee={serviceFee}
+              total={total}
+              selectedMethodDetail={selectedMethodDetail}
+              handlePay={() => handlePay(selectedMethod, setIsProcessing)}
+              isProcessing={isProcessing}
             />
           </div>
-
-          <OrderSummarySticky
-            quantity={quantity}
-            subtotal={subtotal}
-            serviceFee={serviceFee}
-            total={total}
-            selectedMethodDetail={selectedMethodDetail}
-            handlePay={() => handlePay(selectedMethod, setIsProcessing)}
-            isProcessing={isProcessing}
-          />
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </AppShell>
   );
 }

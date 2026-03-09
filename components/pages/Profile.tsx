@@ -14,11 +14,11 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-        <div className="pt-8 px-8 max-w-7xl mx-auto">
+        <div className="pt-8 px-6 max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Saya</h1>
           <p className="text-gray-500">Kelola akun dan lihat riwayat votingmu.</p>
         </div>
-        <div className="flex flex-col items-center justify-center pt-20 gap-5 px-8">
+        <div className="flex flex-col items-center justify-center pt-20 gap-5 px-6">
           <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-300">
             <User2 className="w-12 h-12 text-gray-300" />
           </div>
@@ -34,13 +34,13 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-      <div className="pt-8 px-8 max-w-7xl mx-auto">
+      <div className="pt-8 px-6 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Saya</h1>
         <p className="text-gray-500">Kelola akun dan lihat riwayat votingmu.</p>
       </div>
 
       {/* Profile card */}
-      <div className="px-8 pt-6 max-w-7xl mx-auto">
+      <div className="px-6 pt-6 max-w-7xl mx-auto">
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 flex items-center gap-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 bg-gray-100">
             <Image src={user.avatar} alt={user.name} fill className="object-cover" />
@@ -61,7 +61,7 @@ export default function Profile() {
       </div>
 
       {/* Vote history */}
-      <div className="px-8 pt-8 max-w-7xl mx-auto">
+      <div className="px-6 pt-8 max-w-7xl mx-auto">
         <h3 className="font-bold text-gray-800 text-lg mb-4">Riwayat Vote</h3>
         {voteHistory.length === 0 ? (
           <div className="text-center py-16 text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">

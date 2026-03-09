@@ -22,11 +22,11 @@ export default function Shop() {
   if (!user) {
     return (
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-        <div className="pt-8 px-8 max-w-7xl mx-auto">
+        <div className="pt-8 px-6 max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
           <p className="text-gray-500">Dapatkan koin untuk mendukung kandidat favoritmu.</p>
         </div>
-        <div className="flex flex-col items-center justify-center pt-20 gap-5 px-8">
+        <div className="flex flex-col items-center justify-center pt-20 gap-5 px-6">
           <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center border-2 border-dashed border-gray-300">
             <User2 className="w-12 h-12 text-gray-300" />
           </div>
@@ -43,7 +43,7 @@ export default function Shop() {
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
       {/* Desktop Header Title */}
-      <div className="pt-8 px-8 max-w-7xl mx-auto">
+      <div className="pt-8 px-6 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
         <p className="text-gray-500">Dapatkan koin untuk mendukung kandidat favoritmu.</p>
       </div>

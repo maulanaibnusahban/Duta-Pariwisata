@@ -35,7 +35,7 @@ export function loginWithGoogle(): User {
     id: "google-user-demo",
     name: "Pian",
     email: "demo@gmail.com",
-    avatar: "/avatar.png",
+    avatar: "/profile.png",
   };
   localStorage.setItem("dp_user", JSON.stringify(user));
   notify();

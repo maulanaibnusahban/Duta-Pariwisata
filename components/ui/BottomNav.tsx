@@ -7,11 +7,10 @@ import { NavbarItem } from "@/lib/content";
 const BottomNav = () => {
   const pathname = usePathname();
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-[#35322F] text-gray-400 py-3 px-8 flex justify-between items-center rounded-t-2xl shadow-2xl z-40 md:hidden">
+    <div className="fixed bottom-0 left-0 right-0 bg-[#35322F] text-gray-400 py-3 flex justify-evenly items-center rounded-t-2xl shadow-2xl z-40 md:hidden">
       {NavbarItem.map((item) => (
         <Link
           key={item.href}

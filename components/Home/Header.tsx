@@ -3,11 +3,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { CrownIcon, Search, X, ChevronRight } from "lucide-react";
 import { candidates } from "@/lib/content";
 import Image from "next/image";
-
+import Link from "next/link";
+import { Crown, LogIn } from "lucide-react";
+import { useUser } from "@/lib/useAuth";
+import { loginWithGoogle } from "@/lib/auth";
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const user = useUser();
 
   // Shortcut Listener (Ctrl + K)
   useEffect(() => {
@@ -48,23 +52,25 @@ const Header = () => {
   const filteredCandidates = searchQuery
     ? candidates.filter(
         (c) =>
-          c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.region.toLowerCase().includes(searchQuery.toLowerCase()),
+          c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.region.toLowerCase().includes(searchQuery.toLowerCase()),
       )
-    : [];
-
+    : candidates; // Show all candidates when no search query
   return (
     <>
-      <div className="flex justify-between items-center md:py-0 lg:mb-8 relative z-10 gap-4">
-        <div>
-          <h2 className="text-gray-500 text-sm lg:text-lg font-medium">Selamat Pagi,</h2>
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">Pian</h1>
+      <div className="flex justify-between items-center md:py-0 pt-8 mb-6 lg:mb-4 relative z-10 gap-4">
+        <div className="md:hidden flex gap-2 items-center">
+          <CrownIcon className="hidden sm:block w-5 h-5 lg:w-6 lg:h-6 text-gold-500" />
+          <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-gold-gradient">
+            Duta Pariwasata Indonesia
+          </h1>
         </div>
 
         {/* Search Trigger Bar (Desktop) */}
-        <div className="flex gap-4 w-auto">
+        <div className="flex gap-4 md:w-full">
           <div
             onClick={() => setIsSearchOpen(true)}
-            className="hidden lg:flex w-[300px] border border-gray-200 rounded-lg px-4 py-2.5 items-center gap-3 cursor-pointer hover:border-gold-300 hover:shadow-md hover:shadow-gold-50 transition-all group"
+            className="hidden md:flex  border border-gray-200 rounded-lg px-4 py-2.5 items-center gap-3 cursor-pointer hover:border-gold-300 hover:shadow-md hover:shadow-gold-50 transition-all group w-full"
           >
             <Search className="w-5 h-5 text-gray-400 group-hover:text-gold-500 transition-colors" />
             <span className="text-gray-400 text-sm flex-1 group-hover:text-gray-600">Cari kandidat...</span>
@@ -77,18 +83,40 @@ const Header = () => {
           {/* Mobile Search Icon */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="lg:hidden p-2 rounded-full hover:bg-gray-100 text-gray-600 active:bg-gray-200 transition-colors ml-auto"
+            className="md:hidden p-2 rounded-full hover:bg-gray-100 text-gray-600 active:bg-gray-200 transition-colors ml-auto"
           >
             <Search className="w-6 h-6" />
           </button>
-
-          <div className="py-2 px-5 rounded-md flex items-center justify-center gap-3 border-gold-200 border-[1.5px] shadow-sm">
-            <CrownIcon className="w-5 h-5 lg:w-6 lg:h-6 text-gold-500" />
-            <div className="flex flex-col items-start leading-none">
-              <span className="font-bold text-lg lg:text-xl text-gold-gradient">1</span>
-            </div>
-          </div>
         </div>
+        {/* ── Profile card ── */}
+        {user ? (
+          <Link
+            href="/profile"
+            className="hidden lg:flex items-center gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100 hover:border-gold-200 hover:bg-gold-50/40 transition-all group w-sm"
+          >
+            <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 ring-2 ring-gold-200">
+              <Image src={user.avatar} alt={user.name} fill className="object-cover" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-gray-900 text-sm truncate leading-tight">{user.name}</p>
+              <p className="text-xs text-gray-500 truncate">{user.email}</p>
+            </div>
+            <Crown className="w-4 h-4 text-gold-400 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
+          </Link>
+        ) : (
+          <button
+            onClick={() => loginWithGoogle()}
+            className="hidden lg:flex items-center gap-3 p-3 rounded-2xl bg-gray-50 border border-dashed border-gray-200 hover:border-gold-300 hover:bg-gold-50/30 transition-all w-sm text-left"
+          >
+            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
+              <LogIn className="w-4 h-4 text-gray-500" />
+            </div>
+            <div>
+              <p className="font-semibold text-gray-700 text-sm leading-tight">Masuk ke akun</p>
+              <p className="text-xs text-gray-400">untuk vote & pantau kandidat</p>
+            </div>
+          </button>
+        )}
       </div>
 
       {/* Search Modal */}
@@ -125,13 +153,6 @@ const Header = () => {
 
             {/* Results Area */}
             <div className="overflow-y-auto p-2 min-h-[300px]">
-              {!searchQuery && (
-                <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-4">
-                  <Search className="w-12 h-12 text-gray-200 opacity-50" />
-                  <p className="text-sm">Ketik untuk mencari kandidat...</p>
-                </div>
-              )}
-
               {searchQuery && filteredCandidates.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-20 text-gray-500 text-center">
                   <p className="font-semibold text-lg text-gray-900 mb-1">Kandidat tidak ditemukan</p>
@@ -141,11 +162,12 @@ const Header = () => {
                 </div>
               )}
 
-              {searchQuery && filteredCandidates.length > 0 && (
+              {filteredCandidates.length > 0 && (
                 <div className="space-y-1">
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 py-2">Kandidat</p>
                   {filteredCandidates.map((candidate) => (
-                    <div
+                    <Link
+                      href={`/vote/${candidate.id}`}
                       key={candidate.id}
                       className="flex items-center gap-4 p-3 hover:bg-gold-50 rounded-xl cursor-pointer group transition-colors"
                     >
@@ -157,7 +179,7 @@ const Header = () => {
                         <p className="text-sm text-gray-500">{candidate.region}</p>
                       </div>
                       <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gold-400" />
-                    </div>
+                    </Link>
                   ))}
                 </div>
               )}

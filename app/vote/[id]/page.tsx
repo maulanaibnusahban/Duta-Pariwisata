@@ -3,7 +3,7 @@ import CandidateDetail from "@/components/pages/CandidateDetail";
 
 export default function CandidateDetailPage() {
   return (
-    <AppShell>
+    <AppShell showBottomBar={false}>
       <CandidateDetail />
     </AppShell>
   );
