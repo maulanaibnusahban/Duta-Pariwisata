@@ -8,12 +8,15 @@
   --color-gold-100: #f7eed5;
   --color-gold-200: #eedc9a;
   --color-gold-300: #e4c865;
-  --color-gold-400: #d4af37; /* Metallic Gold */
-  --color-gold-500: #b8860b; /* Dark Goldenrod */
+  --color-gold-400: #d4af37;
+  /* Metallic Gold */
+  --color-gold-500: #b8860b;
+  /* Dark Goldenrod */
   --color-gold-600: #996515;
   --color-gold-700: #704214;
 
-  --color-gold-gradient-start: #f3e5ab; /* Vanilla/Champagne */
+  --color-gold-gradient-start: #f3e5ab;
+  /* Vanilla/Champagne */
   --color-gold-gradient-mid: #d4af37;
   --color-gold-gradient-end: #b8860b;
 }
@@ -45,4 +48,16 @@
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

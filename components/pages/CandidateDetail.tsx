@@ -8,6 +8,7 @@ import { candidates, reelsData } from "@/lib/content";
 import AdsModal from "@/components/shop/AdsModal";
 import QrisPaymentModal from "@/components/vote/QrisPaymentModal";
 import LoginButton from "@/components/Home/LoginButton";
+import AlertModal from "@/components/ui/AlertModal";
 import { addVoteRecord } from "@/lib/auth";
 import { useUser, useVoteHistory } from "@/lib/useAuth";
 import { useParams, useRouter } from "next/navigation";
@@ -39,8 +40,8 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
 
   const [showAds, setShowAds] = useState(false);
   const [showQris, setShowQris] = useState(false);
-  const [voteToast, setVoteToast] = useState(false);
-  const [copyToast, setCopyToast] = useState(false);
+  const [voteAlert, setVoteAlert] = useState(false);
+  const [copyAlert, setCopyAlert] = useState(false);
   const router = useRouter();
 
   const handleShare = async () => {
@@ -54,8 +55,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
       }
     } else {
       await navigator.clipboard.writeText(url);
-      setCopyToast(true);
-      setTimeout(() => setCopyToast(false), 2500);
+      setCopyAlert(true);
     }
   };
 
@@ -69,8 +69,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
       method: "ads",
     });
     setShowAds(false);
-    setVoteToast(true);
-    setTimeout(() => setVoteToast(false), 3000);
+    setVoteAlert(true);
   };
 
   const handlePurchaseSuccess = () => {
@@ -83,8 +82,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
       method: "purchase",
     });
     setShowQris(false);
-    setVoteToast(true);
-    setTimeout(() => setVoteToast(false), 3000);
+    setVoteAlert(true);
   };
 
   const simulatedVotes = candidate.id * 347 + 1204;
@@ -261,36 +259,34 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
           </div>
         </div>
 
-        {/* Vote success toast */}
-        {voteToast && (
-          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-5 animate-fade-in">
-            <div className="flex items-center gap-3 bg-white border border-green-200 rounded-xl px-5 py-3.5 shadow-lg min-w-max">
-              <div className="w-9 h-9 bg-green-500 rounded-full flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-400 leading-none mb-0.5">Vote Berhasil</p>
-                <p className="text-sm font-semibold text-gray-900">
-                  Kamu mendukung <span className="text-green-600">{candidate.name}</span>!
-                </p>
-              </div>
-            </div>
-          </div>
+        {/* Vote success alert */}
+        {voteAlert && (
+          <AlertModal
+            icon={<CheckCircle2 className="w-7 h-7 text-white" />}
+            iconBg="bg-green-500"
+            title="Vote Berhasil! 🎉"
+            description={
+              <>
+                Terima kasih sudah mendukung <span className="font-bold text-gray-800">{candidate.name}</span>.
+                <br />
+                Vote kamu sangat berarti!
+              </>
+            }
+            okLabel="Lanjutkan"
+            onOk={() => setVoteAlert(false)}
+          />
         )}
 
-        {/* Copy link toast */}
-        {copyToast && (
-          <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-5">
-            <div className="flex items-center gap-3 bg-white border border-blue-200 rounded-xl px-5 py-3.5 shadow-lg min-w-max">
-              <div className="w-9 h-9 bg-blue-500 rounded-full flex items-center justify-center shrink-0">
-                <Link2 className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-400 leading-none mb-0.5">Link Disalin</p>
-                <p className="text-sm font-semibold text-gray-900">Link kandidat berhasil disalin!</p>
-              </div>
-            </div>
-          </div>
+        {/* Copy link alert */}
+        {copyAlert && (
+          <AlertModal
+            icon={<Link2 className="w-7 h-7 text-white" />}
+            iconBg="bg-blue-500"
+            title="Link Disalin!"
+            description="Link kandidat sudah tersalin. Bagikan ke teman-temanmu untuk dapat lebih banyak dukungan!"
+            okLabel="OK"
+            onOk={() => setCopyAlert(false)}
+          />
         )}
 
         {/* Ads modal */}
