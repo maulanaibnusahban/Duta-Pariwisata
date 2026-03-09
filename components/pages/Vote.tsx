@@ -1,10 +1,14 @@
+"use client";
+
 import React, { useState } from "react";
 import { Crown, Search } from "lucide-react";
 import Image from "next/image";
 import { candidates } from "@/lib/content";
+import { useRouter } from "next/navigation";
 
-export default function Vote({ setPage, onSelectCandidate }: { setPage: (page: string) => void; onSelectCandidate: (id: number) => void }) {
+export default function Vote() {
   const [activeTab, setActiveTab] = useState("People Choice");
+  const router = useRouter();
 
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
@@ -27,7 +31,7 @@ export default function Vote({ setPage, onSelectCandidate }: { setPage: (page: s
               </div>
             </div>
             <button
-              onClick={() => setPage("shop")}
+              onClick={() => router.push("/shop")}
               className="bg-white text-gold-600 h-fit w-fit px-5 py-2.5 rounded-lg font-bold hover:bg-gray-50 active:scale-[0.98] transition-all cursor-pointer flex items-center gap-1"
             >
               <span>+</span> Dapatkan
@@ -76,7 +80,7 @@ export default function Vote({ setPage, onSelectCandidate }: { setPage: (page: s
           {candidates.map((candidate) => (
             <div
               key={candidate.id}
-              onClick={() => onSelectCandidate(candidate.id)}
+              onClick={() => router.push(`/vote/${candidate.id}`)}
               className="relative aspect-3/4 rounded-2xl overflow-hidden group cursor-pointer shadow-md hover:shadow-xl transition-all hover:-translate-y-1"
             >
               <Image

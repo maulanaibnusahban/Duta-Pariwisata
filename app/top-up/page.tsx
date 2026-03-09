@@ -73,7 +73,7 @@ export default function TopupPage() {
       <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
           <button
-            onClick={() => router.push("/?page=shop")}
+            onClick={() => router.push("/shop")}
             className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
           >
             <ArrowLeft className="w-5 h-5 text-gray-700" />

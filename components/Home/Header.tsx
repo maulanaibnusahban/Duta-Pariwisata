@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { CrownIcon, Search, X, ChevronRight } from "lucide-react";
 import { candidates } from "@/lib/content";

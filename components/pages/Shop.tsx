@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Crown, FilmIcon, User2 } from "lucide-react";
+import { ChevronRight, Crown, FilmIcon, User2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import AdsToast from "@/components/shop/AdsToast";
@@ -76,7 +76,7 @@ export default function Shop() {
                 </div>
                 <p className="text-sm hidden md:block text-gray-500">Dapatkan koin dengan menonton Iklan</p>
               </div>
-              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-gray-500 group-hover:translate-x-1 transition-all" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-500 group-hover:translate-x-1 transition-all" />
             </button>
 
             {/* Top Up button */}
@@ -93,7 +93,7 @@ export default function Shop() {
                   Dapatkan koin dengan melakukan pembelian
                 </p>
               </div>
-              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-gray-500 group-hover:translate-x-1 transition-all" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-500 group-hover:translate-x-1 transition-all" />
             </button>
           </div>
         </div>

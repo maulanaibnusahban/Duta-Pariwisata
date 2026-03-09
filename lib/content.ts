@@ -67,22 +67,22 @@ export const NavbarItem = [
   {
     name: "Beranda",
     icon: House,
-    page: "home",
+    href: "/",
   },
   {
     name: "Vote",
     icon: Crown,
-    page: "vote",
+    href: "/vote",
   },
   {
     name: "Shop",
     icon: ShoppingCart,
-    page: "shop",
+    href: "/shop",
   },
   {
     name: "Profile",
     icon: User2,
-    page: "profile",
+    href: "/profile",
   },
 ];
 

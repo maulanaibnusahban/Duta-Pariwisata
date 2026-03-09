@@ -1,10 +1,10 @@
 import AppShell from "@/components/ui/AppShell";
-import Home from "@/components/pages/Home";
+import Shop from "@/components/pages/Shop";
 
-export default function Page() {
+export default function ShopPage() {
   return (
     <AppShell>
-      <Home />
+      <Shop />
     </AppShell>
   );
 }

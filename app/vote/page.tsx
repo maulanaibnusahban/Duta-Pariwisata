@@ -1,10 +1,10 @@
 import AppShell from "@/components/ui/AppShell";
-import Home from "@/components/pages/Home";
+import Vote from "@/components/pages/Vote";
 
-export default function Page() {
+export default function VotePage() {
   return (
     <AppShell>
-      <Home />
+      <Vote />
     </AppShell>
   );
 }

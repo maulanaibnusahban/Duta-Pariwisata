@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const suggestions = [
   {
@@ -31,7 +34,7 @@ const stories = [
   },
 ];
 
-const RightSidebar = ({ setPage }: { setPage: (page: string) => void }) => {
+const RightSidebar = () => {
   return (
     <div className="hidden lg:flex flex-col border-gray-100 overflow-hidden">
       {/* Stories Section */}
@@ -70,12 +73,12 @@ const RightSidebar = ({ setPage }: { setPage: (page: string) => void }) => {
       <div>
         <div className="flex justify-between items-center mb-4 px-1">
           <h3 className="text-gray-800 font-bold text-lg relative inline-block">Suggestions</h3>
-          <span
-            onClick={() => setPage("vote")}
+          <Link
+            href="/vote"
             className="text-gold-600 text-sm font-semibold hover:text-gold-500 cursor-pointer transition-colors"
           >
             See all
-          </span>
+          </Link>
         </div>
         <div className="space-y-4">
           {suggestions.map((user) => (

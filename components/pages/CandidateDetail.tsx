@@ -9,24 +9,37 @@ import QrisPaymentModal from "@/components/vote/QrisPaymentModal";
 import LoginButton from "@/components/Home/LoginButton";
 import { addVoteRecord } from "@/lib/auth";
 import { useUser, useVoteHistory } from "@/lib/useAuth";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-interface Props {
-  candidateId: number;
-  setPage: (page: string) => void;
+type Candidate = (typeof candidates)[number];
+
+// Outer shell: reads params and guards. No hooks — safe early return.
+export default function CandidateDetail() {
+  const params = useParams();
+  const candidateId = Number(params.id);
+  const candidate = candidates.find((c) => c.id === candidateId);
+
+  if (!candidate) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-gray-500 font-plus-jakarta">
+        Kandidat tidak ditemukan.
+      </div>
+    );
+  }
+
+  return <CandidateDetailContent candidate={candidate} />;
 }
 
-export default function CandidateDetail({ candidateId, setPage }: Props) {
-  const candidate = candidates.find((c) => c.id === candidateId);
+// Inner component: receives guaranteed non-null candidate. All hooks live here.
+function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
   const user = useUser();
   const voteHistory = useVoteHistory();
-  const myVoteCount = voteHistory.filter((r) => r.candidateId === candidateId).length;
+  const myVoteCount = voteHistory.filter((r) => r.candidateId === candidate.id).length;
 
   const [showAds, setShowAds] = useState(false);
   const [showQris, setShowQris] = useState(false);
   const [voteToast, setVoteToast] = useState(false);
-const router = useRouter();
-  if (!candidate) return null;
+  const router = useRouter();
 
   const handleAdsClose = () => {
     addVoteRecord({
@@ -56,25 +69,26 @@ const router = useRouter();
     setTimeout(() => setVoteToast(false), 3000);
   };
 
-  // Simulated vote count
   const simulatedVotes = candidate.id * 347 + 1204;
 
   return (
-    <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
+    <div className="w-full">
       {/* Back button */}
-    <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
-              <button
-                onClick={() => router.push("/?page=shop")}
-                className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
-              >
-                <ArrowLeft className="w-5 h-5 text-gray-700" />
-              </button>
-              <div className="flex-1">
-                <h1 className="text-lg font-bold text-gray-900 leading-tight">Detail Kandidat</h1>
-              </div>
-            </div>
-          </header>
+     <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div className=" mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
+          <button
+            onClick={() => router.back()}
+            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors cursor-pointer active:scale-95"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-700" />
+          </button>
+          <div className="flex-1">
+            <h1 className="text-lg font-bold text-gray-900 leading-tight">Top Up Kuota Vote</h1>
+          </div>
+        </div>
+      </header>
+    <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
+     
 
       {/* Hero image */}
       <div className="relative mx-5 md:mx-8 mt-4 h-72 sm:h-96 rounded-3xl overflow-hidden shadow-xl">
@@ -203,5 +217,7 @@ const router = useRouter();
         />
       )}
     </div>
+    </div>
+
   );
 }

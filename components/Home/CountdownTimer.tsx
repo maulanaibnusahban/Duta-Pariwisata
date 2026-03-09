@@ -1,7 +1,10 @@
+"use client";
+
+import Link from "next/link";
 import { Crown, CrownIcon } from "lucide-react";
 import React from "react";
 
-const CountdownTimer = ({ setPage }: { setPage: (page: string) => void }) => {
+const CountdownTimer = () => {
   return (
     <div className="font-plus-jakarta relative z-10">
       <h3 className="text-sm text-gray-500 mb-3 font-semibold uppercase tracking-wider">Sisa Waktu Pemilihan</h3>
@@ -35,13 +38,13 @@ const CountdownTimer = ({ setPage }: { setPage: (page: string) => void }) => {
           </div>
         </div>
       </div>
-      <button
-        onClick={() => setPage("vote")}
+      <Link
+        href="/vote"
         className="w-full mt-6 bg-gold-gradient text-white rounded-md py-4 px-6 flex items-center justify-center space-x-2 mb-8 hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 cursor-pointer relative overflow-hidden group"
       >
         <CrownIcon className="w-6 h-6 text-white" />
         <span className="text-lg font-bold">Vote Sekarang</span>
-      </button>
+      </Link>
     </div>
   );
 };

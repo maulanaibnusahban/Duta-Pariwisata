@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 const candidates = [
   {
@@ -35,17 +36,17 @@ const candidates = [
   },
 ];
 
-const CandidateList = ({ setPage }: { setPage: (page: string) => void }) => {
+const CandidateList = () => {
   return (
     <div className="mb-8 overflow-hidden">
       <div className="flex justify-between items-center mb-4 px-1">
         <h3 className="text-gray-800 font-bold text-lg relative inline-block">Kandidat</h3>
-        <button
-          onClick={() => setPage("vote")}
+        <Link
+          href="/vote"
           className="text-gold-600 text-sm font-semibold hover:text-gold-500 transition-colors cursor-pointer"
         >
           Lihat Semua
-        </button>
+        </Link>
       </div>
 
       <div className="flex overflow-x-auto space-x-4 pb-4 -mx-4 px-4 scrollbar-hide">
@@ -55,7 +56,7 @@ const CandidateList = ({ setPage }: { setPage: (page: string) => void }) => {
             <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/70 to-transparent p-3">
               <p className="text-white text-sm font-semibold relative z-10">{candidate.name}</p>
               <div className="absolute right-2 bottom-3 z-10 text-white">
-                <ArrowRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4" />
               </div>
             </div>
           </div>
