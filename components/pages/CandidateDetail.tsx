@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ArrowLeft, Crown, FilmIcon, CheckCircle2, LogIn, Users, Share2, Link2 } from "lucide-react";
-import { candidates } from "@/lib/content";
+import Link from "next/link";
+import { ArrowLeft, Crown, FilmIcon, CheckCircle2, LogIn, Users, Share2, Link2, Heart, Play } from "lucide-react";
+import { candidates, reelsData } from "@/lib/content";
 import AdsModal from "@/components/shop/AdsModal";
 import QrisPaymentModal from "@/components/vote/QrisPaymentModal";
 import LoginButton from "@/components/Home/LoginButton";
@@ -87,6 +88,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
   };
 
   const simulatedVotes = candidate.id * 347 + 1204;
+  const otherCandidates = candidates.filter((c) => c.id !== candidate.id);
 
   return (
     <div className="w-full">
@@ -205,6 +207,60 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
           )}
         </div>
 
+        {/* ── Video Dukungan ─────────────────────────────────── */}
+        <div className="mt-6 px-5 md:px-8">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-bold text-gray-900 text-lg">Video Dukungan</h2>
+            <span className="text-xs text-gray-400">{reelsData.length} video</span>
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-3 -mx-5 px-5 md:-mx-8 md:px-8 scrollbar-hide">
+            {reelsData.map((reel) => (
+              <ReelCard key={reel.id} reel={reel} />
+            ))}
+          </div>
+        </div>
+
+        {/* ── Kandidat Lainnya ───────────────────────────────── */}
+        <div className="mt-10 px-5 md:px-8">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-bold text-gray-900 text-lg">Kandidat Lainnya</h2>
+            <Link href="/vote" className="text-gold-600 text-xs font-semibold hover:text-gold-500 transition-colors">
+              Lihat Semua
+            </Link>
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-3 -mx-5 px-5 md:-mx-8 md:px-8 scrollbar-hide">
+            {otherCandidates.map((c) => {
+              const votes = c.id * 347 + 1204;
+              return (
+                <Link key={c.id} href={`/vote/${c.id}`} className="shrink-0 w-36 group">
+                  <div className="relative w-36 h-48 rounded-2xl overflow-hidden shadow-md mb-2 bg-gray-100">
+                    <Image
+                      src={c.image}
+                      alt={c.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-3">
+                      <p className="text-white text-xs font-bold leading-tight truncate">{c.name}</p>
+                      <p className="text-white/70 text-[10px] truncate">{c.region}</p>
+                    </div>
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="text-[10px] font-bold bg-gold-gradient text-white px-2 py-0.5 rounded-full">
+                        Vote
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 text-gray-500">
+                    <Users className="w-3 h-3" />
+                    <span className="text-[11px] font-medium">{votes.toLocaleString("id-ID")}</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Vote success toast */}
         {voteToast && (
           <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 px-4 animate-fade-in">
@@ -249,6 +305,62 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
             onClose={() => setShowQris(false)}
           />
         )}
+      </div>
+    </div>
+  );
+}
+
+// ── Reel card ────────────────────────────────────────────────────────────────
+type Reel = (typeof reelsData)[number];
+
+function ReelCard({ reel }: { reel: Reel }) {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div className="shrink-0 w-64 rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-white">
+      {/* Video area */}
+      <div className="relative w-full aspect-video bg-black">
+        {playing ? (
+          <iframe
+            width="100%"
+            height="100%"
+            src={`${reel.videoUrl}&autoplay=1`}
+            title={reel.user.name}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
+        ) : (
+          <button
+            onClick={() => setPlaying(true)}
+            className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-900 group cursor-pointer"
+          >
+            <Image src={reel.user.avatar} alt={reel.user.name} fill className="object-cover opacity-40" />
+            <div className="relative z-10 w-12 h-12 rounded-full bg-white/20 border-2 border-white/60 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Play className="w-5 h-5 text-white fill-white ml-0.5" />
+            </div>
+          </button>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="p-3">
+        <div className="flex items-center gap-2 mb-1.5">
+          <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 bg-gray-100">
+            <Image src={reel.user.avatar} alt={reel.user.name} fill className="object-cover" />
+          </div>
+          <p className="text-xs font-bold text-gray-800 truncate">{reel.user.name}</p>
+          <span className="text-gray-400 text-[10px] ml-auto shrink-0">{reel.timestamp}</span>
+        </div>
+        <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">{reel.caption.text}</p>
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-[10px] text-gold-500 font-semibold truncate">{reel.caption.hashtags}</span>
+          <span className="flex items-center gap-1 text-[10px] text-gray-400 shrink-0">
+            <Heart className="w-3 h-3" />
+            {reel.likes}
+          </span>
+        </div>
       </div>
     </div>
   );
