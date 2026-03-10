@@ -58,7 +58,7 @@ const Header = () => {
     : candidates; // Show all candidates when no search query
   return (
     <>
-      <div className="flex justify-between items-center md:py-0 pt-8 mb-6 lg:mb-4 relative z-10 gap-4">
+      <div className="flex justify-between items-center md:py-0 pt-6 mb-6 lg:mb-4 relative z-10 gap-4">
         <div className="md:hidden flex gap-2 items-center">
           <CrownIcon className="hidden sm:block w-5 h-5 lg:w-6 lg:h-6 text-gold-500" />
           <h1 className="text-2xl lg:text-3xl font-bold tracking-tight text-gold-gradient">

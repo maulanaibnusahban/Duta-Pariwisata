@@ -62,33 +62,44 @@ export default function AdsModal({ onClose }: Props) {
             className="absolute inset-0 w-full h-full object-center"
           />
 
-          <div className="absolute top-3 right-3 z-20">
-            {finished ? (
+          {/* Top-right HUD: info chip + close button */}
+          <div className="absolute top-3 right-3 z-20 flex flex-col items-end gap-2">
+            {/* Info chip — slides in from right on mount, changes text when finished */}
+            <div
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 border border-white/10 backdrop-blur-sm
+                transition-all duration-500 ease-out
+                ${finished ? "translate-x-0 opacity-100" : "translate-x-0 opacity-100"}`}
+              style={{
+                animation: "slideInRight 0.45s cubic-bezier(0.22,1,0.36,1) both",
+              }}
+            >
+              <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span
+                key={String(finished)}
+                className="text-xs font-semibold tabular-nums whitespace-nowrap"
+                style={{ animation: "fadeSlideUp 0.3s ease-out both" }}
+              >
+                {finished ? (
+                  <span className="text-amber-400">Iklan selesai! Klik × untuk klaim</span>
+                ) : (
+                  <span className="text-white/80">
+                    {Math.max(0, Math.ceil(duration - currentTime))}s · Tonton iklan untuk 1 koin
+                  </span>
+                )}
+              </span>
+            </div>
+
+            {/* Close button — only when finished */}
+            {finished && (
               <button
                 onClick={onClose}
-                className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-gray-900 font-bold shadow-lg hover:bg-gray-100 active:scale-95 transition-all animate-fade-in cursor-pointer"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-gray-900 font-bold shadow-lg hover:bg-gray-100 active:scale-95 transition-all cursor-pointer"
+                style={{ animation: "slideInRight 0.35s cubic-bezier(0.22,1,0.36,1) both" }}
                 aria-label="Tutup iklan"
               >
                 <X className="w-5 h-5" />
               </button>
-            ) : (
-              <div className="px-3 py-1.5 rounded-full bg-black/60 text-white text-xs font-bold tabular-nums border border-white/10">
-                {Math.max(0, Math.ceil(duration - currentTime))}s
-              </div>
             )}
-          </div>
-        </div>
-
-        <div className="bg-gray-900 px-5 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Crown className="w-4 h-4 text-amber-400" />
-            <span className="text-white/80 text-xs">
-              {finished ? (
-                <span className="text-amber-400 font-bold">Iklan selesai! Klik × untuk klaim</span>
-              ) : (
-                <span>Selesaikan iklan untuk mendapatkan 1 koin vote</span>
-              )}
-            </span>
           </div>
         </div>
       </div>

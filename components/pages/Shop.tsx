@@ -22,7 +22,7 @@ export default function Shop() {
   if (!user) {
     return (
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-        <div className="pt-8 px-5 max-w-7xl mx-auto">
+        <div className="pt-6 px-5 max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
           <p className="text-gray-500">Dapatkan koin untuk mendukung kandidat favoritmu.</p>
         </div>
@@ -43,7 +43,7 @@ export default function Shop() {
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
       {/* Desktop Header Title */}
-      <div className="pt-8 px-5 max-w-7xl mx-auto">
+      <div className="pt-6 px-5 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
         <p className="text-gray-500">Dapatkan koin untuk mendukung kandidat favoritmu.</p>
       </div>

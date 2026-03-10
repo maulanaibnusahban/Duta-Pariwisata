@@ -14,7 +14,7 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-        <div className="pt-8 px-5 max-w-7xl mx-auto">
+        <div className="pt-6 px-5 max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Saya</h1>
           <p className="text-gray-500">Kelola akun dan lihat riwayat votingmu.</p>
         </div>
@@ -34,7 +34,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
-      <div className="pt-8 px-5 max-w-7xl mx-auto">
+      <div className="pt-6 px-5 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Saya</h1>
         <p className="text-gray-500">Kelola akun dan lihat riwayat votingmu.</p>
       </div>
@@ -61,7 +61,7 @@ export default function Profile() {
       </div>
 
       {/* Vote history */}
-      <div className="px-5 pt-8 max-w-7xl mx-auto">
+      <div className="px-5 pt-6 max-w-7xl mx-auto">
         <h3 className="font-bold text-gray-800 text-lg mb-4">Riwayat Vote</h3>
         {voteHistory.length === 0 ? (
           <div className="text-center py-16 text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">

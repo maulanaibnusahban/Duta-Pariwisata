@@ -13,7 +13,7 @@ export default function Vote() {
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
       {/* Desktop Header Title */}
-      <div className="pt-8 px-5 max-w-7xl mx-auto">
+      <div className="pt-6 px-5 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Vote</h1>
         <p className="text-gray-500">Dukung kandidat favoritmu untuk menjadi juara.</p>
       </div>
