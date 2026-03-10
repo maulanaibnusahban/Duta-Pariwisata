@@ -69,7 +69,7 @@ export default function TopupPage() {
   );
 
   return (
-    <AppShell showBottomBar={false}>
+    <AppShell showBottomBar={false} showMusicPlayer={false}>
       <div className="min-h-screen bg-gray-50 font-plus-jakarta w-full">
         {/* ── Top Bar ── */}
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
