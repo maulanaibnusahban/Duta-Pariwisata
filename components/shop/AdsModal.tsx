@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Crown, X } from "lucide-react";
+import { useMusic } from "@/lib/MusicContext";
 
 interface Props {
   onClose: () => void;
@@ -13,6 +14,8 @@ export default function AdsModal({ onClose }: Props) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { isPlaying, pause, play } = useMusic();
+  const wasPlayingRef = useRef(false);
 
   const handleTimeUpdate = () => {
     if (!videoRef.current) return;
@@ -35,9 +38,15 @@ export default function AdsModal({ onClose }: Props) {
 
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
+    // Pause background music while ad plays
+    wasPlayingRef.current = isPlaying;
+    if (isPlaying) pause();
     return () => {
       document.body.classList.remove("overflow-hidden");
+      // Resume music if it was playing before
+      if (wasPlayingRef.current) play();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
