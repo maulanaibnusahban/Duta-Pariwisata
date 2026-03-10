@@ -3,15 +3,42 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Crown, FilmIcon, CheckCircle2, LogIn, Users, Share2, Link2, Heart, Play } from "lucide-react";
+import {
+  ArrowLeft,
+  Crown,
+  FilmIcon,
+  CheckCircle2,
+  LogIn,
+  Users,
+  Share2,
+  Link2,
+  Heart,
+  Play,
+  MessageCircle,
+  UserX,
+  Film,
+} from "lucide-react";
 import { candidates, reelsData } from "@/lib/content";
 import AdsModal from "@/components/shop/AdsModal";
 import QrisPaymentModal from "@/components/vote/QrisPaymentModal";
+import SupportMessageModal from "@/components/vote/SupportMessageModal";
 import LoginButton from "@/components/Home/LoginButton";
 import AlertModal from "@/components/ui/AlertModal";
-import { addVoteRecord } from "@/lib/auth";
-import { useUser, useVoteHistory } from "@/lib/useAuth";
+import { addVoteRecord, addSupportMessage } from "@/lib/auth";
+import { useUser, useVoteHistory, useSupportMessages } from "@/lib/useAuth";
 import { useParams, useRouter } from "next/navigation";
+
+function timeAgo(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "baru saja";
+  if (mins < 60) return `${mins} menit lalu`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs} jam lalu`;
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return `${days} hari lalu`;
+  return new Date(dateStr).toLocaleDateString("id-ID", { day: "numeric", month: "short" });
+}
 
 type Candidate = (typeof candidates)[number];
 
@@ -37,11 +64,13 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
   const user = useUser();
   const voteHistory = useVoteHistory();
   const myVoteCount = voteHistory.filter((r) => r.candidateId === candidate.id).length;
+  const messages = useSupportMessages(candidate.id);
 
   const [showAds, setShowAds] = useState(false);
   const [showQris, setShowQris] = useState(false);
   const [voteAlert, setVoteAlert] = useState(false);
   const [copyAlert, setCopyAlert] = useState(false);
+  const [pendingMethod, setPendingMethod] = useState<"ads" | "purchase" | null>(null);
   const router = useRouter();
 
   const handleShare = async () => {
@@ -69,7 +98,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
       method: "ads",
     });
     setShowAds(false);
-    setVoteAlert(true);
+    setPendingMethod("ads");
   };
 
   const handlePurchaseSuccess = () => {
@@ -82,6 +111,28 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
       method: "purchase",
     });
     setShowQris(false);
+    setPendingMethod("purchase");
+  };
+
+  const handleMessageSubmit = (message: string, isAnonymous: boolean) => {
+    if (message && user) {
+      addSupportMessage({
+        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        candidateId: candidate.id,
+        voterName: user.name,
+        voterAvatar: user.avatar,
+        message,
+        votedAt: new Date().toISOString(),
+        method: pendingMethod!,
+        isAnonymous,
+      });
+    }
+    setPendingMethod(null);
+    setVoteAlert(true);
+  };
+
+  const handleMessageSkip = () => {
+    setPendingMethod(null);
     setVoteAlert(true);
   };
 
@@ -205,6 +256,73 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
           )}
         </div>
 
+        {/* ── Pesan Dukungan ────────────────────────────────── */}
+        <div className="mt-6 px-5 md:px-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-bold text-gray-900 text-lg flex items-center gap-2">
+              <MessageCircle className="w-5 h-5 text-gold-500" />
+              Pesan Dukungan
+            </h2>
+            <span className="text-xs text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full font-medium">
+              {messages.length} pesan
+            </span>
+          </div>
+
+          {messages.length === 0 ? (
+            <div className="text-center py-10 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+              <MessageCircle className="w-9 h-9 mx-auto mb-2 text-gray-300" />
+              <p className="text-sm font-medium text-gray-400">Belum ada pesan dukungan</p>
+              <p className="text-xs text-gray-300 mt-1">Jadilah yang pertama memberikan semangat!</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {messages.slice(0, 20).map((msg) => (
+                <div key={msg.id} className="flex gap-3 bg-white rounded-2xl border border-gray-100 shadow-xs p-4">
+                  {/* Avatar */}
+                  {msg.isAnonymous ? (
+                    <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                      <UserX className="w-4 h-4 text-gray-400" />
+                    </div>
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={msg.voterAvatar}
+                      alt={msg.voterName}
+                      className="w-9 h-9 rounded-full object-cover shrink-0"
+                    />
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <p className="text-sm font-bold text-gray-800 truncate">
+                        {msg.isAnonymous ? "Anonim" : msg.voterName}
+                      </p>
+                      <span
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 flex items-center gap-1 ${
+                          msg.method === "ads" ? "bg-blue-50 text-blue-600" : "bg-amber-50 text-amber-700"
+                        }`}
+                      >
+                        {msg.method === "ads" ? (
+                          <>
+                            <Film className="w-2.5 h-2.5" />
+                            Iklan
+                          </>
+                        ) : (
+                          <>
+                            <Crown className="w-2.5 h-2.5" />
+                            Beli
+                          </>
+                        )}
+                      </span>
+                      <span className="text-xs text-gray-400 ml-auto shrink-0">{timeAgo(msg.votedAt)}</span>
+                    </div>
+                    <p className="text-sm text-gray-600 leading-relaxed">{msg.message}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* ── Video Dukungan ─────────────────────────────────── */}
         <div className="mt-6 px-5 md:px-8">
           <div className="flex justify-between items-center mb-4">
@@ -299,6 +417,18 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
             candidateRegion={candidate.region}
             onSuccess={handlePurchaseSuccess}
             onClose={() => setShowQris(false)}
+          />
+        )}
+
+        {/* Support message modal */}
+        {pendingMethod && user && (
+          <SupportMessageModal
+            candidateName={candidate.name}
+            voterName={user.name}
+            voterAvatar={user.avatar}
+            method={pendingMethod}
+            onSubmit={handleMessageSubmit}
+            onSkip={handleMessageSkip}
           />
         )}
       </div>

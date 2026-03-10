@@ -14,6 +14,17 @@ export interface VoteRecord {
   method: "ads" | "purchase";
 }
 
+export interface SupportMessage {
+  id: string;
+  candidateId: number;
+  voterName: string;
+  voterAvatar: string;
+  message: string;
+  votedAt: string;
+  method: "ads" | "purchase";
+  isAnonymous: boolean;
+}
+
 function notify() {
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event("dp-auth-update"));
@@ -66,4 +77,22 @@ export function addVoteRecord(record: VoteRecord): void {
 
 export function hasVotedFor(candidateId: number): boolean {
   return getVoteHistory().some((r) => r.candidateId === candidateId);
+}
+
+export function getSupportMessages(candidateId?: number): SupportMessage[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const data = localStorage.getItem("dp_support_messages");
+    const all = data ? (JSON.parse(data) as SupportMessage[]) : [];
+    return candidateId != null ? all.filter((m) => m.candidateId === candidateId) : all;
+  } catch {
+    return [];
+  }
+}
+
+export function addSupportMessage(msg: SupportMessage): void {
+  const all = getSupportMessages();
+  all.unshift(msg);
+  localStorage.setItem("dp_support_messages", JSON.stringify(all));
+  notify();
 }

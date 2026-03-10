@@ -20,7 +20,7 @@ export default function Vote() {
 
       <div className="p-5 md:p-8 max-w-7xl mx-auto space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 xl:gap-8 items-start">
-          <div className="lg:col-span-5 h-full flex items-center justify-between bg-gold-gradient rounded-2xl p-6 text-white">
+          {/* <div className="lg:col-span-5 h-full flex items-center justify-between bg-gold-gradient rounded-2xl p-6 text-white">
             <div className="relative z-10">
               <p className="font-semibold text-white/90 mb-1 text-sm">Saldo Saya</p>
               <div className="flex items-center justify-between">
@@ -36,7 +36,7 @@ export default function Vote() {
             >
               <span>+</span> Dapatkan
             </button>
-          </div>
+          </div> */}
 
           {/* Search & Tabs */}
           <div className="lg:col-span-7 flex flex-col justify-center space-y-6 h-full">
