@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default function CandidateDetailPage() {
   return (
-    <AppShell showBottomBar={false}>
+    <AppShell showBottomBar={true}>
       <CandidateDetail />
     </AppShell>
   );
