@@ -288,15 +288,15 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={msg.userAvatar}
-                      alt={msg.userName}
+                      src={msg.voterAvatar}
+                      alt={msg.voterName}
                       className="w-9 h-9 rounded-full object-cover shrink-0"
                     />
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <p className="text-sm font-bold text-gray-800 truncate">
-                        {msg.isAnonymous ? "Anonim" : msg.userName}
+                        {msg.isAnonymous ? "Anonim" : msg.voterName}
                       </p>
                       <span
                         className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 flex items-center gap-1 ${
@@ -425,7 +425,6 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
         {/* Support message modal */}
         {pendingMethod && user && (
           <SupportMessageModal
-            isOpen={showSupportModal}
             candidateName={candidate.name}
             voterName={user.name}
             voterAvatar={user.avatar}
