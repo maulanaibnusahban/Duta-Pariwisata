@@ -6,20 +6,32 @@ import React, { useState } from "react";
 import AdsToast from "@/components/shop/AdsToast";
 import AdsModal from "@/components/shop/AdsModal";
 import LoginButton from "@/components/Home/LoginButton";
-import { useUser } from "@/lib/useAuth";
+import { useAuth } from "@/context/AuthContext";
+import { TopupHistoryDropdown } from "@/components/payment/TopupHistoryDropdown";
 
 export default function Shop() {
   const router = useRouter();
   const [showAds, setShowAds] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const user = useUser();
+  const { isAuthenticated, mounted, user, loading } = useAuth();
 
   const handleAdsClose = () => {
     setShowAds(false);
     setShowToast(true);
   };
 
-  if (!user) {
+  if (!mounted) {
+    return (
+      <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto animate-pulse">
+        <div className="pt-6 px-5 max-w-7xl mx-auto">
+          <div className="h-8 bg-gray-200 rounded w-48 mb-2" />
+          <div className="h-4 bg-gray-200 rounded w-64" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
         <div className="pt-6 px-5 max-w-7xl mx-auto">
@@ -43,20 +55,26 @@ export default function Shop() {
   return (
     <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
       {/* Desktop Header Title */}
-      <div className="pt-6 px-5 max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
-        <p className="text-gray-500">Dapatkan koin untuk mendukung kandidat favoritmu.</p>
+      <div className="pt-6 px-5 max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
+          <p className="text-gray-500">Dapatkan koin untuk mendukung kandidat favoritmu.</p>
+        </div>
       </div>
 
       <div className="p-5 md:p-8 max-w-7xl mx-auto space-y-8">
         <div className="grid grid-cols-1 gap-4 md:gap-6 xl:gap-8 items-start">
           <div className="h-full flex items-center justify-between bg-gold-gradient rounded-2xl p-6 text-white">
             <div className="relative z-10">
-              <p className="font-semibold text-white/90 mb-1 text-sm">Saldo Saya</p>
+              <p className="font-semibold text-white/90 mb-1 text-sm">Koin Saya</p>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Crown className="w-8 h-8 text-white" />
-                  <span className="text-4xl font-bold tracking-tight">0</span>
+                  {loading ? (
+                    <div className="h-10 w-24 bg-white/20 rounded animate-pulse" />
+                  ) : (
+                    <span className="text-4xl font-bold tracking-tight">{user?.coin_balance ?? 0}</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -95,6 +113,7 @@ export default function Shop() {
               </div>
               <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-500 group-hover:translate-x-1 transition-all" />
             </button>
+            <TopupHistoryDropdown />
           </div>
         </div>
       </div>

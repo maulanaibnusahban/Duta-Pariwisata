@@ -1,7 +1,5 @@
-import React from "react";
+import LoginPage from "@/components/pages/auth/LoginPage";
 
-function page() {
-  return <div>page</div>;
+export default function Page() {
+  return <LoginPage />;
 }
-
-export default page;

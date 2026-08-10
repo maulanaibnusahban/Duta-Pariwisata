@@ -18,15 +18,17 @@ import {
   UserX,
   Film,
 } from "lucide-react";
-import { candidates, reelsData } from "@/lib/content";
+import { reelsData } from "@/lib/content";
 import AdsModal from "@/components/shop/AdsModal";
 import QrisPaymentModal from "@/components/vote/QrisPaymentModal";
 import SupportMessageModal from "@/components/vote/SupportMessageModal";
 import LoginButton from "@/components/Home/LoginButton";
 import AlertModal from "@/components/ui/AlertModal";
-import { addVoteRecord, addSupportMessage } from "@/lib/auth";
-import { useUser, useVoteHistory, useSupportMessages } from "@/lib/useAuth";
+import { useAuth } from "@/context/AuthContext";
 import { useParams, useRouter } from "next/navigation";
+import { useCandidateDetail } from "@/hooks/useCandidateDetail";
+import { useLeaderboard } from "@/hooks/useLeaderboard";
+import type { Candidate } from "@/types/candidates";
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -40,18 +42,25 @@ function timeAgo(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("id-ID", { day: "numeric", month: "short" });
 }
 
-type Candidate = (typeof candidates)[number];
-
-// Outer shell: reads params and guards. No hooks — safe early return.
+// Outer shell: reads params and fetches data.
 export default function CandidateDetail() {
   const params = useParams();
-  const candidateId = Number(params.id);
-  const candidate = candidates.find((c) => c.id === candidateId);
+  const slug = params.slug as string;
+  const { data: candidate, loading, error } = useCandidateDetail(slug);
 
-  if (!candidate) {
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center font-plus-jakarta gap-4">
+        <div className="w-8 h-8 border-4 border-gold-400 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-500 text-sm">Memuat detail kandidat...</p>
+      </div>
+    );
+  }
+
+  if (error || !candidate) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500 font-plus-jakarta">
-        Kandidat tidak ditemukan.
+        {error || "Kandidat tidak ditemukan."}
       </div>
     );
   }
@@ -61,10 +70,18 @@ export default function CandidateDetail() {
 
 // Inner component: receives guaranteed non-null candidate. All hooks live here.
 function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
-  const user = useUser();
-  const voteHistory = useVoteHistory();
-  const myVoteCount = voteHistory.filter((r) => r.candidateId === candidate.id).length;
-  const messages = useSupportMessages(candidate.id);
+  const { user, isAuthenticated, mounted } = useAuth();
+  // Catatan: voteHistory & supportMessages akan ditambah saat endpoint API tersedia
+  const myVoteCount = 0;
+  const messages: {
+    id: string;
+    isAnonymous: boolean;
+    voterAvatar: string;
+    voterName: string;
+    message: string;
+    votedAt: string;
+    method: "ads" | "purchase";
+  }[] = [];
 
   const [showAds, setShowAds] = useState(false);
   const [showQris, setShowQris] = useState(false);
@@ -89,43 +106,21 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
   };
 
   const handleAdsClose = () => {
-    addVoteRecord({
-      candidateId: candidate.id,
-      candidateName: candidate.name,
-      candidateRegion: candidate.region,
-      candidateImage: candidate.image,
-      votedAt: new Date().toISOString(),
-      method: "ads",
-    });
+    // TODO: Panggil API submit vote saat endpoint tersedia
     setShowAds(false);
     setPendingMethod("ads");
   };
 
   const handlePurchaseSuccess = () => {
-    addVoteRecord({
-      candidateId: candidate.id,
-      candidateName: candidate.name,
-      candidateRegion: candidate.region,
-      candidateImage: candidate.image,
-      votedAt: new Date().toISOString(),
-      method: "purchase",
-    });
+    // TODO: Panggil API submit vote saat endpoint tersedia
     setShowQris(false);
     setPendingMethod("purchase");
   };
 
   const handleMessageSubmit = (message: string, isAnonymous: boolean) => {
     if (message && user) {
-      addSupportMessage({
-        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        candidateId: candidate.id,
-        voterName: user.name,
-        voterAvatar: user.avatar,
-        message,
-        votedAt: new Date().toISOString(),
-        method: pendingMethod!,
-        isAnonymous,
-      });
+      // TODO: Panggil API submit message
+      console.log("Pesan dukungan:", { candidateId: candidate.id, voterName: user.name, message, isAnonymous });
     }
     setPendingMethod(null);
     setVoteAlert(true);
@@ -136,8 +131,9 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
     setVoteAlert(true);
   };
 
-  const simulatedVotes = candidate.id * 347 + 1204;
-  const otherCandidates = candidates.filter((c) => c.id !== candidate.id);
+  const { data: leaderboard } = useLeaderboard();
+  const simulatedVotes = candidate.vote_count || 0;
+  const otherCandidates = leaderboard.filter((c) => c.id !== candidate.id);
 
   return (
     <div className="w-full">
@@ -165,7 +161,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
         {/* Hero image */}
         <div className="relative mx-5 md:mx-8 mt-4 h-72 sm:h-96 rounded-3xl overflow-hidden shadow-xl">
-          <Image src={candidate.image} alt={candidate.name} fill className="object-cover" priority />
+          <Image src={candidate.image || "/avatar.png"} alt={candidate.name} fill className="object-cover" priority />
           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
 
           {/* My vote badge */}
@@ -189,7 +185,13 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
 
         {/* Vote Section */}
         <div className="px-5 md:px-8 mt-6 ">
-          {!user ? (
+          {!mounted ? (
+            <div className="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-8 text-center animate-pulse">
+              <div className="w-14 h-14 rounded-full bg-gray-200 mx-auto mb-4" />
+              <div className="h-4 bg-gray-200 rounded w-48 mx-auto mb-2" />
+              <div className="h-3 bg-gray-200 rounded w-64 mx-auto" />
+            </div>
+          ) : !isAuthenticated ? (
             /* Login required */
             <div className="bg-gray-50 border border-dashed border-gray-300 rounded-2xl p-8 text-center">
               <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
@@ -238,13 +240,13 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
                     <div className="w-9 h-9 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
                       <Crown className="w-5 h-5 text-amber-500" />
                     </div>
-                    <span className="text-base font-bold text-gray-900">Beli Vote</span>
+                    <span className="text-base font-bold text-gray-900">Gunakan Kuota Vote</span>
                   </div>
-                  <p className="text-sm text-gray-500 pl-13">Bayar Rp 1.000 via QRIS untuk 1 vote</p>
+                  <p className="text-sm text-gray-500 pl-13">Dukung kandidat terbaik menggunakan kuota vote</p>
                 </div>
                 <div className="shrink-0 ml-3">
                   <span className="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-lg whitespace-nowrap">
-                    Rp 1.000
+                    1 Vote
                   </span>
                 </div>
               </button>
@@ -286,15 +288,15 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={msg.voterAvatar}
-                      alt={msg.voterName}
+                      src={msg.userAvatar}
+                      alt={msg.userName}
                       className="w-9 h-9 rounded-full object-cover shrink-0"
                     />
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <p className="text-sm font-bold text-gray-800 truncate">
-                        {msg.isAnonymous ? "Anonim" : msg.voterName}
+                        {msg.isAnonymous ? "Anonim" : msg.userName}
                       </p>
                       <span
                         className={`text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 flex items-center gap-1 ${
@@ -346,12 +348,12 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
           </div>
           <div className="flex gap-4 overflow-x-auto pb-3 -mx-5 px-5 md:-mx-8 md:px-8 scrollbar-hide">
             {otherCandidates.map((c) => {
-              const votes = c.id * 347 + 1204;
+              const votes = c.vote_count;
               return (
-                <Link key={c.id} href={`/vote/${c.id}`} className="shrink-0 w-36 group">
+                <Link key={c.id} href={`/vote/${c.slug}`} className="shrink-0 w-36 group">
                   <div className="relative w-36 h-48 rounded-2xl overflow-hidden shadow-md mb-2 bg-gray-100">
                     <Image
-                      src={c.image}
+                      src={c.image || "/avatar.png"}
                       alt={c.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -423,6 +425,7 @@ function CandidateDetailContent({ candidate }: { candidate: Candidate }) {
         {/* Support message modal */}
         {pendingMethod && user && (
           <SupportMessageModal
+            isOpen={showSupportModal}
             candidateName={candidate.name}
             voterName={user.name}
             voterAvatar={user.avatar}

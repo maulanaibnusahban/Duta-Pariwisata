@@ -5,13 +5,14 @@ import { candidates } from "@/lib/content";
 import Image from "next/image";
 import Link from "next/link";
 import { Crown, LogIn } from "lucide-react";
-import { useUser } from "@/lib/useAuth";
-import { loginWithGoogle } from "@/lib/auth";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const user = useUser();
+  const router = useRouter();
+  const { user, isAuthenticated, mounted } = useAuth();
 
   // Shortcut Listener (Ctrl + K)
   useEffect(() => {
@@ -89,7 +90,15 @@ const Header = () => {
           </button>
         </div>
         {/* ── Profile card ── */}
-        {user ? (
+        {!mounted ? (
+          <div className="hidden lg:flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100 w-sm animate-pulse">
+            <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0" />
+            <div className="flex-1 space-y-2">
+              <div className="h-3 bg-gray-200 rounded w-20" />
+              <div className="h-2.5 bg-gray-200 rounded w-28" />
+            </div>
+          </div>
+        ) : isAuthenticated && user ? (
           <Link
             href="/profile"
             className="hidden lg:flex items-center gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100 hover:border-gold-200 hover:bg-gold-50/40 transition-all group w-sm"
@@ -105,15 +114,15 @@ const Header = () => {
           </Link>
         ) : (
           <button
-            onClick={() => loginWithGoogle()}
-            className="hidden lg:flex items-center gap-3 p-3 rounded-2xl bg-gray-50 border border-dashed border-gray-200 hover:border-gold-300 hover:bg-gold-50/30 transition-all w-sm text-left"
+            onClick={() => router.push("/auth/login")}
+            className="hidden lg:flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-200 hover:border-gold-300 hover:bg-gold-50/30 transition-all w-sm text-left"
           >
             <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center shrink-0">
               <LogIn className="w-4 h-4 text-gray-500" />
             </div>
             <div>
               <p className="font-semibold text-gray-700 text-sm leading-tight">Masuk ke akun</p>
-              <p className="text-xs text-gray-400">untuk vote & pantau kandidat</p>
+              <p className="text-xs text-gray-400">untuk vote &amp; pantau kandidat</p>
             </div>
           </button>
         )}
@@ -152,7 +161,7 @@ const Header = () => {
             </div>
 
             {/* Results Area */}
-            <div className="overflow-y-auto p-2 min-h-[300px]">
+            <div className="overflow-y-auto p-2 min-h-75">
               {searchQuery && filteredCandidates.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-20 text-gray-500 text-center">
                   <p className="font-semibold text-lg text-gray-900 mb-1">Kandidat tidak ditemukan</p>

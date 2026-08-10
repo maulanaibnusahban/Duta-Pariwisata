@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Crown, Instagram, Youtube, Twitter, MapPin, Phone, Mail } from "lucide-react";
 import { NavbarItem } from "@/lib/content";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Footer() {
+  const { isAuthenticated, mounted } = useAuth();
+
   return (
     <footer className="bg-[#35322F] text-white font-plus-jakarta block pb-16 md:pb-0">
       <div className="max-w-7xl mx-auto px-8 pt-12 pb-6">
@@ -43,7 +48,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xs font-bold tracking-widest uppercase text-gray-400 mb-4">Navigasi</h3>
             <ul className="space-y-2.5">
-              {NavbarItem.map((item) => (
+              {NavbarItem.filter((item) => item.name !== "Profile" || (mounted && isAuthenticated)).map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}

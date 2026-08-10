@@ -17,8 +17,8 @@ import {
   VolumeX,
 } from "lucide-react";
 import LoginButton from "../Home/LoginButton";
-import { logout } from "@/lib/auth";
-import { useUser, useVoteHistory } from "@/lib/useAuth";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 import { useMusic } from "@/lib/MusicContext";
 
 function formatTime(seconds: number) {
@@ -29,8 +29,8 @@ function formatTime(seconds: number) {
 }
 
 export default function Profile() {
-  const user = useUser();
-  const voteHistory = useVoteHistory();
+  const router = useRouter();
+  const { user, logout, loading, isAuthenticated, mounted } = useAuth();
   const {
     isPlaying,
     currentTrack,
@@ -48,7 +48,18 @@ export default function Profile() {
     setVisible,
   } = useMusic();
 
-  if (!user) {
+  if (!mounted) {
+    return (
+      <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto animate-pulse">
+        <div className="pt-6 px-5 max-w-7xl mx-auto">
+          <div className="h-8 bg-gray-200 rounded w-48 mb-2" />
+          <div className="h-4 bg-gray-200 rounded w-64" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !user) {
     return (
       <div className="min-h-screen pb-24 font-plus-jakarta w-full max-w-7xl mx-auto">
         <div className="pt-6 px-5 max-w-7xl mx-auto">
@@ -85,20 +96,30 @@ export default function Profile() {
           <div className="flex-1 min-w-0">
             <h2 className="font-bold text-gray-900 text-xl leading-tight">{user.name}</h2>
             <p className="text-gray-500 text-sm truncate">{user.email}</p>
-            <p className="text-xs text-gray-400 mt-0.5">{voteHistory.length} vote diberikan</p>
+            <p className="text-xs text-gray-400 mt-0.5">Akun Aktif</p>
           </div>
-          <button
-            onClick={logout}
-            className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 active:scale-[0.98] transition-all cursor-pointer shrink-0"
-          >
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline">Logout</span>
-          </button>
+          <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3 shrink-0">
+            <div className="flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-amber-700 text-sm font-semibold border border-amber-100">
+              <Crown className="w-4 h-4" />
+              {loading ? "..." : (user?.coin_balance ?? 0)}
+            </div>
+            <button
+              onClick={async () => {
+                await logout();
+                router.push("/auth/login");
+              }}
+              disabled={loading}
+              className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-red-500 border border-red-200 rounded-xl hover:bg-red-50 active:scale-[0.98] transition-all cursor-pointer shrink-0 disabled:opacity-50"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Logout</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Vote history */}
-      <div className="px-5 pt-6 max-w-7xl mx-auto">
+      {/* <div className="px-5 pt-6 max-w-7xl mx-auto">
         <h3 className="font-bold text-gray-800 text-lg mb-4">Riwayat Vote</h3>
         {voteHistory.length === 0 ? (
           <div className="text-center py-16 text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
@@ -145,7 +166,7 @@ export default function Profile() {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
 
       {/* ── Music Player Section ── */}
       <div className="px-5 pt-6 pb-2 max-w-7xl mx-auto">
