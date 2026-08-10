@@ -6,14 +6,15 @@ import CandidateList from "../Home/CandidateList";
 import LastViewed from "../Home/LastViewed";
 import Reels from "../Home/Reels";
 import RightSidebar from "../Home/RightSidebar";
-import { useUser } from "@/lib/useAuth";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { LogIn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { loginWithGoogle } from "@/lib/auth";
-import { LogIn } from "lucide-react";
 
 export default function Home() {
-  const user = useUser();
+  const router = useRouter();
+  const { user, isAuthenticated, mounted } = useAuth();
   return (
     <>
       <main className={`px-5 pb-6 md:py-4 w-full min-h-screen relative`}>
@@ -22,7 +23,15 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8  max-w-7xl mx-auto  ">
             <div className="lg:col-span-6 xl:col-span-8 space-y-4 z-20 pb-24 lg:pb-0">
               <div className="bg-white lg:hidden rounded-2xl border border-gray-200 shadow-sm p-5 flex items-center gap-4  ">
-                {user ? (
+                {!mounted ? (
+                  <div className="flex justify-between w-full opacity-50 animate-pulse">
+                    <div className="space-y-2">
+                      <div className="h-4 bg-gray-200 rounded w-24" />
+                      <div className="h-6 bg-gray-200 rounded w-32" />
+                    </div>
+                    <div className="w-14 h-14 rounded-full bg-gray-200 shrink-0" />
+                  </div>
+                ) : isAuthenticated && user ? (
                   <Link href="/profile" className=" flex justify-between w-full">
                     <div>
                       <h2 className="text-gray-500  lg:text-lg font-medium">Selamat Pagi,</h2>
@@ -39,7 +48,7 @@ export default function Home() {
                       <h1 className="text-2xl  font-bold text-gray-900 tracking-tight">Pengunjung</h1>
                     </div>
                     <button
-                      onClick={() => loginWithGoogle()}
+                      onClick={() => router.push("/auth/login")}
                       className="flex items-center gap-2 px-5 py-2 text-sm font-semibold text-amber-400 border border-amber-200 rounded-xl hover:bg-amber-50 active:scale-[0.98] transition-all cursor-pointer shrink-0"
                     >
                       <LogIn className="w-4 h-4 text-gray-500" />

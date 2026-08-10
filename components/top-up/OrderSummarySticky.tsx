@@ -1,20 +1,17 @@
 "use client";
 
 import React from "react";
-import { Crown, ChevronRight, Shield, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Crown, ChevronRight, Shield, AlertCircle, CheckCircle2, QrCode, Wallet, CreditCard } from "lucide-react";
 import { formatIDR } from "./helpers";
-import { PaymentMethodType } from "@/lib/type";
-
-/* ─────────────────────────────────────────────
-   Shared type (exported so page.tsx can import it)
-───────────────────────────────────────────── */
+import Image from "next/image";
+import { PaymentChannel } from "@/types/payment";
 
 interface Props {
   quantity: number;
   subtotal: number;
   serviceFee: number;
   total: number;
-  selectedMethodDetail: PaymentMethodType | undefined;
+  selectedMethodDetail: PaymentChannel | undefined;
   handlePay: () => void;
   isProcessing: boolean;
 }
@@ -62,7 +59,9 @@ export default function OrderSummarySticky({
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-500 flex items-center gap-1">
                   Biaya Layanan
-                  <span className="text-xs text-gray-400">(0,7%)</span>
+                  {selectedMethodDetail?.fee_type === "percent" && (
+                    <span className="text-xs text-gray-400">({selectedMethodDetail.fee_value}%)</span>
+                  )}
                 </span>
                 <span className="font-semibold text-gray-900">{formatIDR(serviceFee)}</span>
               </div>
@@ -79,7 +78,15 @@ export default function OrderSummarySticky({
             {selectedMethodDetail && (
               <div className="bg-gold-50 border border-gold-100 rounded-xl px-5 py-3.5 flex items-center gap-3">
                 <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                  <selectedMethodDetail.icon className={selectedMethodDetail.className} />
+                  {selectedMethodDetail.icon ? (
+                    <Image src={selectedMethodDetail.icon} alt={selectedMethodDetail.name} width={20} height={20} className="object-contain" />
+                  ) : selectedMethodDetail.code.toLowerCase().includes("qris") ? (
+                    <QrCode className="w-4 h-4 text-gray-500" />
+                  ) : selectedMethodDetail.code.toLowerCase().includes("wallet") || selectedMethodDetail.code.toLowerCase().includes("pay") ? (
+                    <Wallet className="w-4 h-4 text-gray-500" />
+                  ) : (
+                    <CreditCard className="w-4 h-4 text-gray-500" />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-gray-400">Metode Terpilih</p>
@@ -92,7 +99,7 @@ export default function OrderSummarySticky({
             {/* Pay Button */}
             <button
               onClick={handlePay}
-              disabled={isProcessing}
+              disabled={isProcessing || !selectedMethodDetail}
               className="w-full h-14 rounded-xl font-bold text-base text-white bg-gold-gradient hover:opacity-90 active:scale-[0.98] transition-all shadow-md shadow-amber-200 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
             >
               {isProcessing ? (
